@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Let\'s Travel</string>
-    <string name="title_activity_maps">MapsActivity</string>
+
+    <string name="search_hint">여기서 검색</string>
 </resources>
