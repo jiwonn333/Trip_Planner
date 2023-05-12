@@ -3,6 +3,7 @@ package com.example.letstravel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.kakao.sdk.user.UserApiClient;
 
 import java.util.Objects;
 
@@ -34,8 +36,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private View header;
-
     private Context context;
+    private boolean isKakaoLoginSuccess;
+    private boolean isNaverLoginSuccess;
 
 
     @Override
@@ -43,12 +46,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        drawerLayout = findViewById(R.id.dl_main_drawer);
+        navigationView = findViewById(R.id.nv_main_navigation_root);
+
         context = this;
+        isKakaoLoginSuccess = UserPreference.getKakaoLoginSuccess(context);
+        isNaverLoginSuccess = UserPreference.getNaverLoginSuccess(context);
+
+        if (isKakaoLoginSuccess || isNaverLoginSuccess) {
+            Log.e("test", String.valueOf(isKakaoLoginSuccess));
+            setShowLoginUi();
+        } else {
+            header = navigationView.getHeaderView(0);
+            TextView headerName = header.findViewById(R.id.nav_header_tv_name);
+            TextView headerId = header.findViewById(R.id.nav_header_tv_id);
+            headerName.setText(getString(R.string.required_login));
+            headerId.setVisibility(View.INVISIBLE);
+        }
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
         mapFragment.getMapAsync(this);
 
         initLayout();
+
 
         header.setOnClickListener(v -> {
             setLoginView();
@@ -67,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        drawerLayout = findViewById(R.id.dl_main_drawer);
-        navigationView = findViewById(R.id.nv_main_navigation_root);
+
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -78,17 +98,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         );
         drawerLayout.addDrawerListener(drawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
-
-        if (UserPreference.getKakaoLoginSuccess(context) || UserPreference.getNaverLoginSuccess(context)) {
-
-        } else {
-            header = navigationView.getHeaderView(0);
-            TextView headerName = header.findViewById(R.id.nav_header_tv_name);
-            TextView headerId = header.findViewById(R.id.nav_header_tv_id);
-
-            headerName.setText(getString(R.string.required_login));
-            headerId.setVisibility(View.INVISIBLE);
-        }
     }
 
 
@@ -124,4 +133,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(seoul).title("Marker in Seoul"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
     }
+
+
+    private void setShowLoginUi() {
+        header = navigationView.getHeaderView(0);
+        TextView headerName = header.findViewById(R.id.nav_header_tv_name);
+        TextView headerId = header.findViewById(R.id.nav_header_tv_id);
+
+        UserApiClient.getInstance().me((user, throwable) -> {
+            if (throwable != null) {
+                Log.e("error", "사용자 정보 요청 실패 ," + throwable.getMessage());
+            } else if (user != null) {
+                Log.i("success", "사용자 정보 요청 성공" +
+                        "\n회원번호: ${user.id}" +
+                        "\n이메일: ${user.kakaoAccount?.email}" +
+                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
+                        "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}");
+
+                headerName.setText(user.getKakaoAccount().getProfile().getNickname());
+                headerId.setText(user.getKakaoAccount().getEmail());
+                headerId.setVisibility(View.VISIBLE);
+            }
+            return null;
+        });
+
+
+    }
+
+
 }

@@ -3,8 +3,11 @@ package com.example.letstravel.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +23,7 @@ import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
 
 import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,8 +31,11 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton btnKakao;
     private ImageButton btnNaver;
     private Context context;
-    private Intent intent;
     private ImageView btnBack;
+    private TextView login;
+    private TextView btnLogout;
+    private boolean isKakaoLoginCheck;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +46,16 @@ public class LoginActivity extends AppCompatActivity {
         btnKakao = findViewById(R.id.btn_kakao);
         btnNaver = findViewById(R.id.btn_naver);
         btnBack = findViewById(R.id.iv_back);
+        login = findViewById(R.id.tv_login);
+        btnLogout = findViewById(R.id.btn_logout);
+
+
+        isKakaoLoginCheck = UserPreference.getKakaoLoginSuccess(context);
+        if (isKakaoLoginCheck) {
+            setShowLoginUI();
+        } else {
+            setShowLogoutUI();
+        }
 
         btnKakao.setOnClickListener(v -> kakaoLogin());
 
@@ -47,6 +64,11 @@ public class LoginActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> {
             finish();
         });
+
+        btnLogout.setOnClickListener(v -> {
+            startKakaoLogout();
+        });
+
 
     }
 
@@ -60,12 +82,13 @@ public class LoginActivity extends AppCompatActivity {
                     UserApiClient.getInstance().loginWithKakaoAccount(context, callback);
                 } else if (oAuthToken != null) {
                     UserPreference.setKakaoLoginSuccess(context, true);
-                    startIntent();
+                    setShowLoginUI();
                 }
                 return null;
             });
         } else {
             UserApiClient.getInstance().loginWithKakaoAccount(context, callback);
+
         }
     }
 
@@ -74,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
         } else if (oAuthToken != null) {
             UserPreference.setKakaoLoginSuccess(context, true);
-            startIntent();
+            setShowLoginUI();
         }
         return null;
     };
@@ -109,14 +132,34 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void startIntent() {
-        intent = new Intent();
-//        intent.putExtra("userId", userId);
-//        intent.putExtra("userName", userName);
-//        intent.putExtra("userPhone", userPhone);
-        setResult(RESULT_OK, intent);
-        finish();
+    private void startKakaoLogout() {
+        UserApiClient.getInstance().logout(throwable -> {
+            if (throwable != null) {
+                Log.e("error", "로그아웃 실패 SDK에서 토큰 삭제");
+            } else {
+                Log.i("error", "로그아웃 성공");
+                UserPreference.setKakaoLoginSuccess(context, false);
+                setShowLogoutUI();
+            }
+            return null;
+        });
     }
+
+
+    private void setShowLoginUI() {
+        login.setVisibility(View.INVISIBLE);
+        btnLogout.setVisibility(View.VISIBLE);
+        btnKakao.setVisibility(View.INVISIBLE);
+        btnNaver.setVisibility(View.INVISIBLE);
+    }
+
+    private void setShowLogoutUI() {
+        login.setVisibility(View.VISIBLE);
+        btnLogout.setVisibility(View.INVISIBLE);
+        btnKakao.setVisibility(View.VISIBLE);
+        btnNaver.setVisibility(View.VISIBLE);
+    }
+
 
 
 }
