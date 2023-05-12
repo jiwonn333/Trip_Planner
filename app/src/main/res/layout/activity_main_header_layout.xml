@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:text="아이디"
-        android:textSize="10sp"
+        android:textSize="12dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/nav_header_tv_name"
         app:layout_constraintStart_toStartOf="@id/nav_header_tv_name"
