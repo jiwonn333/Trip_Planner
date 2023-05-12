@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private View header;
+    private TextView headerName;
+    private TextView headerId;
     private Context context;
     private boolean isKakaoLoginSuccess;
     private boolean isNaverLoginSuccess;
@@ -48,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         drawerLayout = findViewById(R.id.dl_main_drawer);
         navigationView = findViewById(R.id.nv_main_navigation_root);
+        header = navigationView.getHeaderView(0);
+        headerName = header.findViewById(R.id.nav_header_tv_name);
+        headerId = header.findViewById(R.id.nav_header_tv_id);
+
 
         context = this;
         isKakaoLoginSuccess = UserPreference.getKakaoLoginSuccess(context);
@@ -57,9 +63,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.e("test", String.valueOf(isKakaoLoginSuccess));
             setShowLoginUi();
         } else {
-            header = navigationView.getHeaderView(0);
-            TextView headerName = header.findViewById(R.id.nav_header_tv_name);
-            TextView headerId = header.findViewById(R.id.nav_header_tv_id);
             headerName.setText(getString(R.string.required_login));
             headerId.setVisibility(View.INVISIBLE);
         }
@@ -136,10 +139,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private void setShowLoginUi() {
-        header = navigationView.getHeaderView(0);
-        TextView headerName = header.findViewById(R.id.nav_header_tv_name);
-        TextView headerId = header.findViewById(R.id.nav_header_tv_id);
-
         UserApiClient.getInstance().me((user, throwable) -> {
             if (throwable != null) {
                 Log.e("error", "사용자 정보 요청 실패 ," + throwable.getMessage());
@@ -151,8 +150,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}");
 
                 headerName.setText(user.getKakaoAccount().getProfile().getNickname());
-                headerId.setText(user.getKakaoAccount().getEmail());
                 headerId.setVisibility(View.VISIBLE);
+                headerId.setText(user.getKakaoAccount().getEmail());
             }
             return null;
         });
