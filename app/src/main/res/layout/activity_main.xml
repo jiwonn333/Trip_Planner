@@ -16,8 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:openDrawer="start">
 
-        <fragment
-            android:id="@+id/fragment_map_sample"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            app:headerLayout="@layout/activity_main_header_layout"
             app:menu="@menu/menu_navigation" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
