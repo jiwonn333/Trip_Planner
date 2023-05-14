@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         isKakaoLoginSuccess = UserPreference.getKakaoLoginSuccess(context);
         isNaverLoginSuccess = UserPreference.getNaverLoginSuccess(context);
 
+        Log.e("test", "iskakaologin : " + isKakaoLoginSuccess);
+
         if (isKakaoLoginSuccess || isNaverLoginSuccess) {
-            Log.e("test", String.valueOf(isKakaoLoginSuccess));
             setShowLoginUi();
         } else {
             headerName.setText(getString(R.string.required_login));
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setLoginView() {
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(loginIntent);
+        finish();
     }
 
     private void initLayout() {

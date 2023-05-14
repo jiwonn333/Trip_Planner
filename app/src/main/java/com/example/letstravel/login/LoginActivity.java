@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.letstravel.MainActivity;
 import com.example.letstravel.R;
 import com.example.letstravel.util.UserPreference;
 import com.kakao.sdk.auth.model.OAuthToken;
@@ -23,7 +24,6 @@ import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
 public class LoginActivity extends AppCompatActivity {
@@ -62,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
         btnNaver.setOnClickListener(v -> naverLogin());
 
         btnBack.setOnClickListener(v -> {
-            finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         });
 
         btnLogout.setOnClickListener(v -> {
@@ -159,7 +160,6 @@ public class LoginActivity extends AppCompatActivity {
         btnKakao.setVisibility(View.VISIBLE);
         btnNaver.setVisibility(View.VISIBLE);
     }
-
 
 
 }
