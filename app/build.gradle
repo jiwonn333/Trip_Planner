@@ -39,6 +39,12 @@ android {
 
 dependencies {
     def nav_version = "2.5.3"
+    def lifecycle_version = "2.5.1"
+
+    //noinspection GradleDependency
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    //noinspection GradleDependency
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
@@ -50,8 +56,10 @@ dependencies {
     implementation "com.kakao.sdk:v2-user:2.12.0" // 카카오 로그인
     implementation 'com.navercorp.nid:oauth-jdk8:5.3.0' // 네이버 로그
 
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'

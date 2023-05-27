@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_information">
+
+    <fragment
+        android:id="@+id/navigation_information"
+        android:name="com.example.letstravel.fragment.information.InformationFragment"
+        android:label="@string/title_information"
+        tools:layout="@layout/fragment_information" />
+
+    <fragment
+        android:id="@+id/navigation_save"
+        android:name="com.example.letstravel.fragment.save.SaveFragment"
+        android:label="@string/title_save"
+        tools:layout="@layout/fragment_save" />
+
+    <fragment
+        android:id="@+id/navigation_transport"
+        android:name="com.example.letstravel.fragment.transport.TransportFragment"
+        android:label="@string/title_transport"
+        tools:layout="@layout/fragment_transport" />
+
+    <fragment
+        android:id="@+id/navigation_mypage"
+        android:name="com.example.letstravel.fragment.mypage.MyPageFragment"
+        android:label="@string/title_mypage"
+        tools:layout="@layout/fragment_transport" />
+</navigation>
