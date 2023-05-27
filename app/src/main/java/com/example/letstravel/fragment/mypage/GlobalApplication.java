@@ -1,4 +1,4 @@
-package com.example.letstravel.login;
+package com.example.letstravel.fragment.mypage;
 
 import android.app.Application;
 
