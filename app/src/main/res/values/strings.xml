@@ -12,6 +12,13 @@
     <string name="naver_client_id">J8WIOwga5BSn7z8rSzv0</string>
     <string name="naver_client_secret">Wh_0nUWpwB</string>
     <string name="naver_client_name">Naver 로그인</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="title_activity_test_bottom_nav">TestBottomNavActivity</string>
+    <string name="title_information">주변</string>
+    <string name="title_save">저장</string>
+    <string name="title_transport">대중교통</string>
+    <string name="title_mypage">내정보</string>
 
 </resources>
