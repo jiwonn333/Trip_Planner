@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-가    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -61,7 +61,6 @@
                     android:scheme="@string/kakao_scheme_app_key" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity" />
     </application>
 
 </manifest>
