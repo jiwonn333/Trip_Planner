@@ -1,12 +1,11 @@
 package com.example.letstravel;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationRequest;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +15,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.gms.location.LocationCallback;
+import com.example.letstravel.util.PermissionUtils;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -28,33 +26,32 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private GoogleMap mMap;
-    private MapView googlemap = null;
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener,
+        ActivityCompat.OnRequestPermissionsResultCallback {
+
+    /**
+     * 위치 권한 요청 요청 코드
+     *
+     * @see #onRequestPermissionsResult(int, String[], int[])
+     */
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
+    /**
+     * {@link#onRequestPermissionsResult(int, String[], int[])}에서 반환된 후
+     * 요청된 권한이 거부되었는지 여부를 나타내는 플래그
+     */
+    private boolean permissionDenied = false;
+
+    private GoogleMap map;
     private Marker currentMarker = null;
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int UPDATE_INTERVAL_MS = 1000; //1초
-    private final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
-    private static final int PERMISSIONS_REQUEST_CODE = 100;
-    boolean needRequest = false;
-
-    // 앱을 실행하기 위해 필요한 퍼미션 정의
-    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}; //외부저장소
-    private View mLayout;  // Snackbar 사용하기 위해 필요
-    private LocationRequest locationRequest;
-    private Location location;
-    private LocationCallback locationCallback;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_container);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_container);
         mapFragment.getMapAsync(this);
 
         // bottom navigation 탐색 설정
@@ -67,129 +64,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-
+        map = googleMap;
         // 런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에 지도의 초기위치 서울로 지정
         setDefaultLocation();
 
-//        // 앱에 런타임 퍼미션 요청
-//        getDeviceLocation();
-//
-//        //런타임 퍼미션 처리
-//        // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
-//        int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.ACCESS_FINE_LOCATION);
-//        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.ACCESS_COARSE_LOCATION);
-//
-//        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
-//                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
-//
-//            // 이미 퍼미션을 가지고 있다면
-//            // ( 안드로이드 6.0 이하 버전은 런타임 퍼미션이 필요없기 때문에 이미 허용된 걸로 인식합니다.)
-//            // 위치 업데이트 시작
-//            startLocationUpdates();
-//        } else {
-//            // 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요; 2가지 경우(3-1, 4-1)가 있습니다.
-//            // 사용자가 퍼미션 거부를 한 적이 있는 경우
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
-//                // 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해야 한다.
-//                Snackbar.make(mLayout, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Snackbar.LENGTH_INDEFINITE).setAction("확인", view -> {
-//
-//                    // 사용자게에 퍼미션 요청. 요청 결과는 onRequestPermissionResult에서 수신
-//                    ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
-//                            PERMISSIONS_REQUEST_CODE);
-//                }).show();
-//            } else {
-//                //  사용자가 퍼미션 거부를 한 적이 없는 경우에는 바로 퍼미션 요청
-//                // 요청 결과는 onRequestPermissionResult에서 수신
-//                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS,
-//                        PERMISSIONS_REQUEST_CODE);
-//            }
-//        }
-//
-//        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//
-//                Log.d("test", "onMapClick :");
-//            }
-//        });
-
-
-        // 위치 권한 설정 여부에따라 구글맵에 디바이스의 위치를 설정
-//        updateLocationUI();
-
-//        LatLng seoul = new LatLng(37.512017, 127.116902);
-//        mMap.addMarker(new MarkerOptions().position(seoul).title("Marker in Seoul"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
+        // TODO: 내 위치 레이어를 활성화하기 전에 다음을 요청
+        // 사용자의 위치 권한
+        // 위치 권한 요청
+        map.setOnMyLocationButtonClickListener(this);
+        map.setOnMyLocationClickListener(this);
+        enableMyLocation();
     }
-
-//    private void updateLocationUI() {
-//        if (mMap == null) {
-//            return;
-//        }
-//        /**
-//         * 기기의 위치를 알 수 있도록 위치 권한을 요청
-//         * 권한 요청의 결과는 onRequestPermissionsResult 콜백에 의해 처리
-//         */
-//        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-//                android.Manifest.permission.ACCESS_FINE_LOCATION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            mLocationPermissionGranted = true;
-//        } else {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-//                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-//        }
-//        if (mLocationPermissionGranted) {
-//            mMap.setMyLocationEnabled(true);
-//            mMap.getUiSettings().setMyLocationButtonEnabled(true);
-//        } else {
-//            mMap.setMyLocationEnabled(false);
-//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//            mLastKnownLocation = null;
-//        }
-//    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        mLocationPermissionGranted = false;
-//        switch (requestCode) {
-//            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    mLocationPermissionGranted = true;
-//                }
-//            }
-//        }
-//        updateLocationUI();
-//    }
-
-
-    // 디바이스의 위치정보를 얻어서 맵 이동하기
-//    private void getDeviceLocation() {
-//        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-//                android.Manifest.permission.ACCESS_FINE_LOCATION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            mLocationPermissionGranted = true;
-//        } else {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-//                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-//        }
-//    }
 
     private void setDefaultLocation() {
         //디폴트 위치; Seoul
         LatLng DEFAULT_LOCATION_SEOUL = new LatLng(37.56, 126.97);
         String markerTitle = "위치정보 가져올 수 없음";
         String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
-
 
         if (currentMarker != null) currentMarker.remove();
 
@@ -199,10 +90,89 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        currentMarker = mMap.addMarker(markerOptions);
+        currentMarker = map.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION_SEOUL, 15);
-        mMap.moveCamera(cameraUpdate);
+        map.moveCamera(cameraUpdate);
+    }
+
+    /**
+     * 정밀 위치 권한이 부여된 경우 내 위치 레이어를 활성화한다.
+     */
+    @SuppressLint("MissingPermission")
+    private void enableMyLocation() {
+        // 1. 권한이 부여되었는지 확인하고 부여된 경우 내 위치 레이어를 활성화 한다.
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            map.setMyLocationEnabled(true);
+            return;
+        }
+        // 2. 그렇지 않은 경우 사용자에게 위치 권한을 요청한다.
+        PermissionUtils.requestLocationPermissions(this, LOCATION_PERMISSION_REQUEST_CODE, true);
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        // 이벤트를 소비하지 않고 기본 동작이 계속 발생하도록 false를 반환합니다.
+        // (카메라는 사용자의 현재 위치로 움직입니다).
+        return false;
+    }
+
+
+    /**
+     * @param requestCode  The request code passed in
+     * @param permissions  The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *                     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *                     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION) || PermissionUtils
+                .isPermissionGranted(permissions, grantResults,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            // 권한이 부여된 경우 내 위치 레이어를 활성화 한다.
+            enableMyLocation();
+        } else {
+            // 허가가 거부되었습니다. (오류 메시지 표시)
+            // [START_EXCLUDE]
+            // 조각이 다시 시작될 때 누락된 권한 오류 대화 상자를 표시
+            permissionDenied = true;
+            // [END_EXCLUDE]
+        }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (permissionDenied) {
+            // 권한이 부여되지 않았습니다. (오류 대화 상자가 표시)
+            showMissingPermissionError();
+            permissionDenied = false;
+        }
+    }
+
+
+    /**
+     * 위치 권한이 없음을 설명하는 오류 메시지가 있는 대화 상자
+     */
+    private void showMissingPermissionError() {
+        PermissionUtils.PermissionDeniedDialog
+                .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 
 }
