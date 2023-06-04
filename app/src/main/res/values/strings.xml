@@ -26,4 +26,8 @@
     <string name="location_permission_denied">내 위치를 활성화하기 위해 위치 권한이 필요합니다. 다시 시도하고 위치를 사용할 수 있는 액세스 권한을 부여하세요.\n권한이 영구적으로 거부된 경우 시스템 설정 &gt; 앱 &gt; \'Let\'s Travel\'.</string>
     <string name="permission_required_toast">이 어플에는 위치 권한이 필요합니다.</string>
 
+    <!--    Information SearchView    -->
+    <string name="search_text">식당, 숙소, 버스 등 검색</string>
+    <string name="search_cancel">취소</string>
+
 </resources>
