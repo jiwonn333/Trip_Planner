@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,25 +41,28 @@ public class MyPageFragment extends Fragment {
         isLogin = UserPreference.getKakaoLoginSuccess(getContext());
         myPageViewModel = new ViewModelProvider(this).get(MyPageViewModel.class);
 
-        myPageViewModel.getIsLogin().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        binding.setLifecycleOwner(this);
+        binding.setViewmodel(myPageViewModel);
+
+        /*myPageViewModel.getIsLogin().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                // UI 작업
-                if (aBoolean) {
-                    // 로그인
-                    binding.btnKakao.setVisibility(View.INVISIBLE);
-                    binding.btnNaver.setVisibility(View.INVISIBLE);
-                    binding.btnLogout.setVisibility(View.VISIBLE);
-                    Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
-                } else {
-                    // 로그아웃
-                    binding.btnKakao.setVisibility(View.VISIBLE);
-                    binding.btnNaver.setVisibility(View.VISIBLE);
-                    binding.btnLogout.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getContext(), "else", Toast.LENGTH_SHORT).show();
-                }
+//                // UI 작업
+//                if (aBoolean) {
+//                    // 로그인
+//                    binding.btnKakao.setVisibility(View.INVISIBLE);
+//                    binding.btnNaver.setVisibility(View.INVISIBLE);
+//                    binding.btnLogout.setVisibility(View.VISIBLE);
+//                    Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // 로그아웃
+//                    binding.btnKakao.setVisibility(View.VISIBLE);
+//                    binding.btnNaver.setVisibility(View.VISIBLE);
+//                    binding.btnLogout.setVisibility(View.INVISIBLE);
+//                    Toast.makeText(getContext(), "else", Toast.LENGTH_SHORT).show();
+//                }
             }
-        });
+        });*/
     }
 
     @Override

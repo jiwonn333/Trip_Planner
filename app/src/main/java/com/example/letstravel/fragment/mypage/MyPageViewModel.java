@@ -22,17 +22,12 @@ import kotlin.jvm.functions.Function2;
 @SuppressLint("StaticFieldLeak")
 public class MyPageViewModel extends AndroidViewModel {
 
-    private MutableLiveData<Boolean> isLogin;
+    public MutableLiveData isLogin = new MutableLiveData<Boolean>();
 
     public MutableLiveData<Boolean> getIsLogin() {
-        if (isLogin == null) {
-            isLogin = new MutableLiveData<Boolean>(false);
-            if (UserPreference.getKakaoLoginSuccess(getApplication().getApplicationContext())){
-                isLogin.setValue(true);
-            } else {
-                isLogin.setValue(false);
-            }
-        }
+        boolean isAlreadyKaKaoLogin = UserPreference.getKakaoLoginSuccess(getApplication().getApplicationContext());
+        isLogin.setValue(isAlreadyKaKaoLogin);
+
         return isLogin;
     }
 
