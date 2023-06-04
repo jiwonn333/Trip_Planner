@@ -9,7 +9,20 @@
         android:id="@+id/navigation_information"
         android:name="com.example.letstravel.fragment.information.InformationFragment"
         android:label="@string/title_information"
-        tools:layout="@layout/fragment_information" />
+        tools:layout="@layout/fragment_information" >
+        <action
+            android:id="@+id/action_navigation_information_to_navigation_search"
+            app:destination="@id/navigation_search" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.letstravel.fragment.search.SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_information"
+            app:destination="@id/navigation_information" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_save"
