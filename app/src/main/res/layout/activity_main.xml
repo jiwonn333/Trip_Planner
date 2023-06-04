@@ -5,8 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include layout="@layout/activity_maps" />
+    <!-- Fragment 화면-->
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <include layout="@layout/activity_bottom_nav" />
+        <include layout="@layout/activity_maps" />
+        <include layout="@layout/activity_bottom_nav" />
+    </FrameLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
