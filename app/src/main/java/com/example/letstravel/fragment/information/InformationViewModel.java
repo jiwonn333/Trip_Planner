@@ -10,15 +10,11 @@ import java.util.EventListener;
 
 public class InformationViewModel extends ViewModel {
 
-    private final MutableLiveData<String> textHint;
-
-    public InformationViewModel() {
-        textHint = new MutableLiveData<>();
-        textHint.setValue("송파구");
+    private final MutableLiveData<String> searchWord = new MutableLiveData<String>();
+    public void setSearchWord(String str) {
+        searchWord.setValue(str);
     }
-
-    public LiveData<String> getText() {
-        return textHint;
+    public LiveData<String> getSearchWord() {
+        return searchWord;
     }
-
 }
