@@ -45,7 +45,7 @@ public class InformationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 //        initView();
 //        initObserver();
-        initialized();
+//        initialized();
 
     }
 

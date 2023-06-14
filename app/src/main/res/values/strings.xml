@@ -6,7 +6,6 @@
 
     <string name="required_login">로그인이 필요합니다.</string>
 
-
     <string name="kakao_app_key">ab7cad5e90bb8d9380e52c83ac51ce85</string>
     <string name="kakao_scheme_app_key">kakaoab7cad5e90bb8d9380e52c83ac51ce85</string>
     <string name="naver_client_id">J8WIOwga5BSn7z8rSzv0</string>
@@ -29,5 +28,10 @@
     <!--    Information SearchView    -->
     <string name="search_text">식당, 숙소, 버스 등 검색</string>
     <string name="search_cancel">취소</string>
+    <string name="option_get_place">Get place</string>
+
+    <string name="default_info_title">기본 위치</string>
+    <string name="default_info_snippet">위치 권한이 비활성화되어 있어 장소를 찾을 수 없습니다.</string>
+
 
 </resources>
