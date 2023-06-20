@@ -17,27 +17,27 @@
         <include layout="@layout/activity_bottom_nav" />
     </FrameLayout>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10sp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10sp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:layout_marginEnd="10sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <fragment
-            android:id="@+id/autocomplete_fragment"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout="@layout/fragment_search_example" />
-    </androidx.cardview.widget.CardView>
+<!--        <fragment-->
+<!--            android:id="@+id/autocomplete_fragment"-->
+<!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/round_background"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:layout="@layout/fragment_search_example" />-->
+<!--    </androidx.cardview.widget.CardView>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

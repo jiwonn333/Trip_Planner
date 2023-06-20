@@ -15,7 +15,7 @@ public class InformationViewModel extends ViewModel {
 
     public final MediatorLiveData<Double> latLngMerger = new MediatorLiveData<>();
 
-    public void setLatLng(Double lat, Double lng) {
+    public void setLatLng(double lat, double lng) {
         latLngMerger.addSource(latitude, lat1 -> latLngMerger.setValue(lat));
         latLngMerger.addSource(longitude, lng1 -> latLngMerger.setValue(lng));
     }
@@ -31,22 +31,6 @@ public class InformationViewModel extends ViewModel {
 
     public MutableLiveData<String> getTitle() {
         return title;
-    }
-
-    public void setLatitude(Double lat) {
-        latitude.setValue(lat);
-    }
-
-    public MutableLiveData<Double> getLatitude() {
-        return latitude;
-    }
-
-    public void setLongitude(Double lng) {
-        longitude.setValue(lng);
-    }
-
-    public MutableLiveData<Double> getLongitude() {
-        return longitude;
     }
 
     public void setSearchWord(String str) {

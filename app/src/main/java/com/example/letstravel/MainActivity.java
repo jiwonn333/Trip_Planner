@@ -7,23 +7,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.letstravel.fragment.information.InformationViewModel;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,18 +35,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -63,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * 위치 권한이 부여되지 않은 경우 사용할 기본 위치(서울) 및 기본 확대/축소
      */
     private final LatLng defaultLocation = new LatLng(37.56, 126.97);
-    private static final int DEFAULT_ZOOM = 20;
+    private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
 
@@ -100,8 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private InformationViewModel informationViewModel;
 
     private String title;
-    private double lat;
-    private double lng;
+    private Double latLng;
 
 
     @Override
@@ -116,7 +106,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         init();
-        initAutoComplete();
+
+        informationViewModel = new ViewModelProvider(this).get(InformationViewModel.class);
+        title = informationViewModel.getTitle().toString();
+        latLng = informationViewModel.getLatLng().getValue();
+
+
+        informationViewModel.getTitle().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.e("test", "this : " + s);
+                Log.e("test", "latLng : " + latLng);
+            }
+        });
     }
 
     private void init() {
@@ -167,31 +169,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.googleMap = googleMap;
 
-        // 사용자 정의 정보 창 어댑터를 사용하여 정보 창 콘텐츠에서 여러 줄의 텍스트를 처리
-        this.googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Nullable
-            @Override
-            // 정보 창, 제목 및 스니펫의 레이아웃을 확장
-            public View getInfoContents(@NonNull Marker marker) {
-                View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
-                        (FrameLayout) findViewById(R.id.map_container), false);
-
-                TextView title = infoWindow.findViewById(R.id.title);
-                title.setText(marker.getTitle());
-
-                TextView snippet = infoWindow.findViewById(R.id.snippet);
-                snippet.setText(marker.getSnippet());
-
-                return infoWindow;
-            }
-
-            @Nullable
-            @Override
-            // getInfoContents()가 다음에 호출되도록 여기에서 null을 반환
-            public View getInfoWindow(@NonNull Marker marker) {
-                return null;
-            }
-        });
         // 사용자에게 권한을 요청
         getLocationPermission();
 
@@ -200,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // 장치의 현재 위치를 가져오고 지도의 위치를 설정
         getDeviceLocation();
+
+        observed();
     }
 
     /**
@@ -390,48 +369,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .show();
     }
 
+    private void observed() {
 
-    private void initAutoComplete() {
-        AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        autocompleteSupportFragment.setTypesFilter(Arrays.asList("restaurant", "subway_station", "store", "cafe", "bar"));
-        autocompleteSupportFragment.setLocationBias(RectangularBounds.newInstance(
-                new LatLng(-33.880490, 151.184363),
-                new LatLng(-33.858754, 151.229596)));
-        autocompleteSupportFragment.setCountries("KR");
-        autocompleteSupportFragment.setHint(getString(R.string.search_text));
-        autocompleteSupportFragment.setActivityMode(AutocompleteActivityMode.FULLSCREEN);
-        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                informationViewModel = new ViewModelProvider(MainActivity.this).get(InformationViewModel.class);
-                informationViewModel.setTitle(place.getName());
-                informationViewModel.setLatitude(Objects.requireNonNull(place.getLatLng()).latitude);
-                informationViewModel.setLongitude(place.getLatLng().longitude);
-
-                informationViewModel.getTitle().observe(MainActivity.this, s -> title = s);
-
-                informationViewModel.getLatitude().observe(MainActivity.this, aDouble -> lat = aDouble);
-
-                informationViewModel.getLongitude().observe(MainActivity.this, aDouble -> lng = aDouble);
-
-
-                // 해당 장소에 대한 정보를 표시하는 정보 창과 함께 선택한 장소에 대한 마커를 추가
-                googleMap.addMarker(new MarkerOptions()
-                        .title(title)
-                        .position(new LatLng(lat, lng))
-                        .snippet(place.getAddress()));
-
-                // 마커 위치에 지도의 카메라를 배치
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), DEFAULT_ZOOM));
-
-
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Log.e("test", "error : " + status);
-            }
-        });
     }
 }

@@ -10,12 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.letstravel.BuildConfig;
+import com.example.letstravel.MainActivity;
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentInformationBinding;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
@@ -25,12 +29,12 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class InformationFragment extends Fragment {
 
     private FragmentInformationBinding binding;
     private InformationViewModel informationViewModel;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class InformationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 //        initView();
 //        initObserver();
-//        initialized();
+        initialized();
 
     }
 
@@ -66,7 +70,7 @@ public class InformationFragment extends Fragment {
         autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                Log.e("test", "autocompleteSupportFragment.getId() : " + autocompleteSupportFragment.getId());
+
                 Log.e("test", "Place : "+ place.getName() + place.getLatLng().latitude + ", " + place.getLatLng().longitude);
                 informationViewModel = new ViewModelProvider(requireActivity()).get(InformationViewModel.class);
                 informationViewModel.setTitle(place.getName());
