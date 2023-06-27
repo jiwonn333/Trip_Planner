@@ -18,7 +18,7 @@
     <string name="title_information">주변</string>
     <string name="title_save">저장</string>
     <string name="title_transport">대중교통</string>
-    <string name="title_mypage">내정보</string>
+    <string name="title_mypage">주변 장소</string>
 
     <!--    Permissions    -->
     <string name="permission_rationale_location">지도에 현재 위치를 표시하는 \'내 위치\' 기능을 사용하기 위해서 위치 서비스에 대한 액세스가 필요합니다.</string>

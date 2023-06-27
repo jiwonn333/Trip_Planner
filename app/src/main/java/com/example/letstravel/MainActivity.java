@@ -13,7 +13,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -90,10 +89,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Marker currentMarker = null;
     private InformationViewModel informationViewModel;
 
-    private String title;
-    private Double latLng;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,22 +99,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
         init();
 
-        informationViewModel = new ViewModelProvider(this).get(InformationViewModel.class);
-        title = informationViewModel.getTitle().toString();
-        latLng = informationViewModel.getLatLng().getValue();
-
-
-        informationViewModel.getTitle().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Log.e("test", "this : " + s);
-                Log.e("test", "latLng : " + latLng);
-            }
-        });
     }
+
+    public void observing(String title, double lat, double lng) {
+        informationViewModel = new ViewModelProvider(this).get(InformationViewModel.class);
+        // 사용자가 장소를 선택하지 않았으므로 기본 마커를 추가
+        googleMap.addMarker(new MarkerOptions()
+                .title(title)
+                .position(new LatLng(lat, lng)));
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),
+                DEFAULT_ZOOM));
+
+    }
+
 
     private void init() {
         Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
@@ -177,8 +172,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // 장치의 현재 위치를 가져오고 지도의 위치를 설정
         getDeviceLocation();
-
-        observed();
     }
 
     /**
@@ -369,7 +362,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .show();
     }
 
-    private void observed() {
-
-    }
 }
