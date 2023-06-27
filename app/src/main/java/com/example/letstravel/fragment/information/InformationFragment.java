@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.letstravel.BuildConfig;
@@ -70,13 +69,9 @@ public class InformationFragment extends Fragment {
             public void onPlaceSelected(@NonNull Place place) {
                 informationViewModel = new ViewModelProvider(requireActivity()).get(InformationViewModel.class);
                 informationViewModel.setTitle(place.getName());
-                informationViewModel.setLatitude(place.getLatLng().latitude);
-                informationViewModel.setLongitude(place.getLatLng().longitude);
 
                 mainActivity = (MainActivity) getActivity();
-                informationViewModel.getTitle().observe(getViewLifecycleOwner(), title -> {
-                    mainActivity.observing(title, place.getLatLng().latitude, place.getLatLng().longitude);
-                });
+                informationViewModel.getTitle().observe(getViewLifecycleOwner(), title -> mainActivity.observing(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude));
             }
 
             @Override
