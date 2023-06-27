@@ -1,10 +1,12 @@
 package com.example.letstravel.fragment.information;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,29 +17,43 @@ import com.example.letstravel.BuildConfig;
 import com.example.letstravel.MainActivity;
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentInformationBinding;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.net.FetchPhotoRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 public class InformationFragment extends Fragment {
 
     private FragmentInformationBinding binding;
     private InformationViewModel informationViewModel;
     private MainActivity mainActivity;
+    private ImageView imageView;
+    private PlacesClient placesClient;
+    final String placeId = BuildConfig.PLACE_ID;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentInformationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        imageView = binding.ivImage;
+
 
         return root;
     }
@@ -52,7 +68,6 @@ public class InformationFragment extends Fragment {
 
     private void initialized() {
         Places.initialize(getContext(), BuildConfig.MAPS_API_KEY);
-        PlacesClient placesClient = Places.createClient(getContext());
 
         AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
@@ -67,11 +82,12 @@ public class InformationFragment extends Fragment {
         autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
+                Log.d("test", "place id : " + place.getId());
                 informationViewModel = new ViewModelProvider(requireActivity()).get(InformationViewModel.class);
                 informationViewModel.setTitle(place.getName());
-
                 mainActivity = (MainActivity) getActivity();
                 informationViewModel.getTitle().observe(getViewLifecycleOwner(), title -> mainActivity.observing(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude));
+                showPhoto();
             }
 
             @Override
@@ -79,6 +95,45 @@ public class InformationFragment extends Fragment {
                 Log.e("test", "error : " + status);
             }
         });
+    }
+
+    private void showPhoto() {
+        Log.d("test", "success");
+        placesClient = Places.createClient(requireContext());
+
+        // 필드를 지정, 사진 요청에는 항상 PHOTO_METADATAS 필드가 있어야 한다.
+        final List<Place.Field> fields = Collections.singletonList(Place.Field.PHOTO_METADATAS);
+
+        final FetchPlaceRequest placeRequest = FetchPlaceRequest.newInstance(placeId, fields);
+        placesClient.fetchPlace(placeRequest).addOnSuccessListener(response -> {
+            final Place place = response.getPlace();
+            final List<PhotoMetadata> metadata = place.getPhotoMetadatas();
+            if (metadata == null || metadata.isEmpty()) {
+                Log.w("test", "No photo metadata.");
+                return;
+            }
+
+            final PhotoMetadata photoMetadata = metadata.get(0);
+            final String attr = photoMetadata.getAttributions();
+            final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                    .setMaxWidth(500)
+                    .setMaxHeight(300)
+                    .build();
+
+            placesClient.fetchPhoto(photoRequest).addOnSuccessListener(fetchPhotoResponse -> {
+                Bitmap bitmap = fetchPhotoResponse.getBitmap();
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setImageBitmap(bitmap);
+            }).addOnFailureListener(exception -> {
+                if (exception instanceof ApiException) {
+                    final ApiException apiException = (ApiException) exception;
+                    Log.e("test", "Place not found : " + exception.getMessage());
+                    imageView.setVisibility(View.INVISIBLE);
+                }
+            });
+        });
+
+
     }
 
 

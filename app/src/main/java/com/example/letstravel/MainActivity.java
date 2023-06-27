@@ -103,19 +103,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void observing(String title, double lat, double lng) {
-        informationViewModel = new ViewModelProvider(this).get(InformationViewModel.class);
-        // 사용자가 장소를 선택하지 않았으므로 기본 마커를 추가
-        googleMap.addMarker(new MarkerOptions()
-                .title(title)
-                .position(new LatLng(lat, lng)));
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),
-                DEFAULT_ZOOM));
-
-    }
-
-
     private void init() {
         Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
         placesClient = Places.createClient(this);
@@ -360,6 +347,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .setTitle(R.string.title_mypage)
                 .setItems(likelyPlaceNames, listener)
                 .show();
+    }
+
+    public void observing(String title, double lat, double lng) {
+        informationViewModel = new ViewModelProvider(this).get(InformationViewModel.class);
+        // 사용자가 장소를 선택하지 않았으므로 기본 마커를 추가
+        googleMap.addMarker(new MarkerOptions()
+                .title(title)
+                .position(new LatLng(lat, lng)));
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),
+                DEFAULT_ZOOM));
+
     }
 
 }

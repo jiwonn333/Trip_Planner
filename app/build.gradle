@@ -20,6 +20,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "PLACE_ID", '"PLACE_ID"'
     }
 
     buildTypes {
@@ -38,6 +40,9 @@ android {
 }
 
 dependencies {
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.libraries.places:places:3.1.0'
     def nav_version = "2.5.3"
