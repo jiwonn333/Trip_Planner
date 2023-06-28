@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,26 +33,20 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 public class InformationFragment extends Fragment {
 
     private FragmentInformationBinding binding;
     private InformationViewModel informationViewModel;
     private MainActivity mainActivity;
-    private ImageView imageView;
     private PlacesClient placesClient;
     final String placeId = BuildConfig.PLACE_ID;
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentInformationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        imageView = binding.ivImage;
-
 
         return root;
     }
@@ -78,7 +71,7 @@ public class InformationFragment extends Fragment {
         autocompleteSupportFragment.setCountries("KR");
         autocompleteSupportFragment.setHint(getString(R.string.search_text));
         autocompleteSupportFragment.setActivityMode(AutocompleteActivityMode.FULLSCREEN);
-        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));
         autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
@@ -87,7 +80,7 @@ public class InformationFragment extends Fragment {
                 informationViewModel.setTitle(place.getName());
                 mainActivity = (MainActivity) getActivity();
                 informationViewModel.getTitle().observe(getViewLifecycleOwner(), title -> mainActivity.observing(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude));
-                showPhoto();
+                showPhoto(place.getName(), place.getAddress());
             }
 
             @Override
@@ -97,7 +90,7 @@ public class InformationFragment extends Fragment {
         });
     }
 
-    private void showPhoto() {
+    private void showPhoto(String name, String address) {
         Log.d("test", "success");
         placesClient = Places.createClient(requireContext());
 
@@ -122,18 +115,20 @@ public class InformationFragment extends Fragment {
 
             placesClient.fetchPhoto(photoRequest).addOnSuccessListener(fetchPhotoResponse -> {
                 Bitmap bitmap = fetchPhotoResponse.getBitmap();
-                imageView.setVisibility(View.VISIBLE);
-                imageView.setImageBitmap(bitmap);
+                binding.detailsLayout.setVisibility(View.VISIBLE);
+                binding.ivImage.setImageBitmap(bitmap);
+                binding.tvTitle.setText(name);
+                binding.tvDetail.setText(address);
+                Log.e("test", "address : " + address);
+
             }).addOnFailureListener(exception -> {
                 if (exception instanceof ApiException) {
                     final ApiException apiException = (ApiException) exception;
                     Log.e("test", "Place not found : " + exception.getMessage());
-                    imageView.setVisibility(View.INVISIBLE);
+
                 }
             });
         });
-
-
     }
 
 
