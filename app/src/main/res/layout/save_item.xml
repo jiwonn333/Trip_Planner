@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/default_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50sp">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_background"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_heart" />
+
+    <TextView
+        android:id="@+id/tv_save_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/iv_icon"
+        app:layout_constraintTop_toTopOf="@id/iv_icon"
+        tools:text="기본 그룹" />
+
+    <TextView
+        android:id="@+id/tv_save_count_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/iv_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_save_title"
+        android:text="@string/save_count" />
+
+    <TextView
+        android:id="@+id/tv_save_count_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_save_count_name"
+        app:layout_constraintStart_toEndOf="@id/tv_save_count_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_save_title"
+        tools:text="0" />
+
+    <TextView
+        android:id="@+id/tv_save_count_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_save_count_size"
+        app:layout_constraintStart_toEndOf="@id/tv_save_count_size"
+        app:layout_constraintTop_toTopOf="@id/tv_save_count_size"
+        android:text="@string/save_count_max" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
