@@ -32,6 +32,13 @@
 
     <string name="default_info_title">기본 위치</string>
     <string name="default_info_snippet">위치 권한이 비활성화되어 있어 장소를 찾을 수 없습니다.</string>
+    <string name="save_count">개수</string>
+    <string name="save_count_max">/500</string>
+    <string name="save_text_group">그룹</string>
+    <string name="save_text_default_group">기본 그룹</string>
+    <string name="save_text_max">/500</string>
+    <string name="save_text_count">개수</string>
+    <string name="save_btn_add">+ 새 그룹 추가</string>
 
 
 </resources>
