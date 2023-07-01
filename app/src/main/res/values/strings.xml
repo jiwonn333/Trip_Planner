@@ -38,7 +38,9 @@
     <string name="save_text_default_group">기본 그룹</string>
     <string name="save_text_max">/500</string>
     <string name="save_text_count">개수</string>
-    <string name="save_btn_add">+ 새 그룹 추가</string>
-
+    <string name="add_text">새 그룹 추가</string>
+    <string name="add_title_text_hint">그룹명을 입력해 주세요.</string>
+    <string name="add_desc_text_hint">설명을 입력해 주세요.</string>
+    <string name="text_select_icon">아이콘 선택</string>
 
 </resources>
