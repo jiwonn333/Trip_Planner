@@ -2,7 +2,6 @@ package com.example.letstravel.fragment.save;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.letstravel.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecyclerViewAdapter.ViewHolder> {
     Context context;
     private ArrayList<RecyclerViewItem> itemLists; // 어댑터에 들어갈 리스트
 
@@ -38,13 +36,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     //메인 액티비티와 연결
-    public RecyclerViewAdapter(Context context, ArrayList<RecyclerViewItem> itemLists) {
+    public SaveAddRecyclerViewAdapter(Context context, ArrayList<RecyclerViewItem> itemLists) {
         super();
         this.context = context;
         this.itemLists = itemLists;
     }
 
-    public RecyclerViewAdapter(Context context) {
+    public SaveAddRecyclerViewAdapter(Context context) {
         this.context = context;
     }
 
@@ -61,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-       holder.imageView.setImageResource(itemLists.get(position).getIconDrawable());
+        holder.imageView.setImageResource(itemLists.get(position).getIconDrawable());
     }
 
     @Override
