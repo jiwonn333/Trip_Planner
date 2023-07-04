@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="icon_color">#FF000000</color>
-    <color name="icon_selected_color">#0029FF</color>
+    <color name="icon_selected_color">#284AFA</color>
 
 </resources>
