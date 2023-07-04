@@ -6,13 +6,10 @@ public class RecyclerViewItem {
     public RecyclerViewItem(int iconDrawable) {
         this.iconDrawable = iconDrawable;
     }
-
     public void setIconDrawable(int iconDrawable) {
         this.iconDrawable = iconDrawable;
     }
-
     public int getIconDrawable() {
         return iconDrawable;
     }
-
 }

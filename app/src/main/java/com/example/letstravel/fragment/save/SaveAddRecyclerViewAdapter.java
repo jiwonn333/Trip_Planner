@@ -2,6 +2,7 @@ package com.example.letstravel.fragment.save;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +20,12 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
     Context context;
     private ArrayList<RecyclerViewItem> itemLists; // 어댑터에 들어갈 리스트
 
+    private int selectedItemPosition = -1;
 
+    @SuppressLint("NotifyDataSetChanged")
     public void addItem(ArrayList<RecyclerViewItem> itemLists) {
         this.itemLists = itemLists;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    private OnItemClickListener itemClickListener = null;
-
-    //OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메소드
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.itemClickListener = listener;
+        notifyDataSetChanged();
     }
 
     //메인 액티비티와 연결
@@ -58,8 +51,8 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
     // 생성된 뷰 홀더에 데이터 넣는 함수 (position에 해당하는 데이터를 뷰홀더 아이템뷰에 표시)
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.imageView.setImageResource(itemLists.get(position).getIconDrawable());
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        holder.setData(itemLists.get(holder.getBindingAdapterPosition()));
     }
 
     @Override
@@ -71,10 +64,23 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        @SuppressLint("ResourceAsColor")
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.item_image);
+
+        }
+
+        public void setData(RecyclerViewItem item) {
+            imageView.setImageResource(item.getIconDrawable());
+            boolean isSelected = selectedItemPosition == getBindingAdapterPosition();
+            int itemColor = isSelected ? R.color.icon_selected_color : R.color.icon_color;
+
+            imageView.setColorFilter(context.getColor(itemColor), PorterDuff.Mode.SRC_IN);
+
+            imageView.setOnClickListener(v -> {
+                selectedItemPosition = getBindingAdapterPosition();
+                notifyDataSetChanged();
+            });
         }
     }
 }

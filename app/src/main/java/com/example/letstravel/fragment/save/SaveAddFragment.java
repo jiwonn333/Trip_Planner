@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.letstravel.R;
@@ -47,7 +46,6 @@ public class SaveAddFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentSaveAddBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
@@ -64,7 +62,7 @@ public class SaveAddFragment extends Fragment {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = binding.saveAddRecyclerview;
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), itemLists);
+        SaveAddRecyclerViewAdapter recyclerViewAdapter = new SaveAddRecyclerViewAdapter(getContext(), itemLists);
         GridLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 5);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
