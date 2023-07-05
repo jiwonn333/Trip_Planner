@@ -17,10 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentSaveAddBinding;
+import com.example.letstravel.fragment.common.BaseFragment;
 
 import java.util.ArrayList;
 
-public class SaveAddFragment extends Fragment {
+public class SaveAddFragment extends BaseFragment {
 
     private FragmentSaveAddBinding binding;
     SaveViewModel saveViewModel;
@@ -85,15 +86,7 @@ public class SaveAddFragment extends Fragment {
             }
         });
 
-        binding.ibCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 현재 프래그먼트 종료
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().remove(SaveAddFragment.this).commit();
-
-            }
-        });
+        binding.ibCancel.setOnClickListener(v -> removeFragment(SaveAddFragment.this));
     }
 
     private void initRecyclerView() {

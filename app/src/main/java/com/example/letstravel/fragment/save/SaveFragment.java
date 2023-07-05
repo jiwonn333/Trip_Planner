@@ -1,5 +1,7 @@
 package com.example.letstravel.fragment.save;
 
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,13 +10,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentSaveBinding;
+import com.example.letstravel.fragment.common.BaseFragment;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-public class SaveFragment extends Fragment {
+public class SaveFragment extends BaseFragment {
     private @NonNull FragmentSaveBinding binding;
     private SaveViewModel saveViewModel;
 
@@ -31,13 +35,26 @@ public class SaveFragment extends Fragment {
         binding = FragmentSaveBinding.inflate(inflater, container, false);
 
 
-        binding.btnAddGroup.setOnClickListener(new View.OnClickListener() {
+        //persistentBottomSheet로 사용할 view 획득
+        View bottomSheet = binding.coordinator.findViewById(R.id.bottom_sheet);
+        //획득한 view를 bottomsheet로 지정
+        BottomSheetBehavior persistentBottomSheet = BottomSheetBehavior.from(bottomSheet);
+        persistentBottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onClick(View v) {
-                Log.e("test", "버튼 클릭됨");
-                addSaveFragment();
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                Log.e("test", "newState : " + newState);
+                if (newState == STATE_HIDDEN) {
+                    removeFragment(SaveFragment.this);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
             }
         });
+
+        binding.btnAddGroup.setOnClickListener(v -> replaceFragment(SaveFragment.this, SaveFragmentDirections.actionNavigationSaveToNavigationSaveAdd()));
 
         return binding.getRoot();
     }
@@ -50,12 +67,8 @@ public class SaveFragment extends Fragment {
     }
 
     private void addSaveFragment() {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        SaveAddFragment saveAddFragment = new SaveAddFragment();
-        fragmentTransaction.add(R.id.frameLayout, saveAddFragment)
-                .setReorderingAllowed(true)
-                .addToBackStack(null)
-                .commit();
+        NavController navHostController = NavHostFragment.findNavController(SaveFragment.this);
+        navHostController.navigate(SaveFragmentDirections.actionNavigationSaveToNavigationSaveAdd());
 
     }
 
