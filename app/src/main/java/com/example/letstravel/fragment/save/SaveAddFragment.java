@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,6 +62,7 @@ public class SaveAddFragment extends Fragment {
 
         initRecyclerView();
 
+
         binding.etAddGroupTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -69,11 +71,10 @@ public class SaveAddFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 if (binding.etAddGroupTitle.length() > 0) {
-                    binding.btnComplete.setClickable(true);
                     binding.btnComplete.setBackgroundResource(R.drawable.background_add_btn_active);
                 } else {
-                    binding.btnComplete.setClickable(false);
                     binding.btnComplete.setBackgroundResource(R.drawable.background_add_btn_default);
                 }
             }
@@ -84,6 +85,15 @@ public class SaveAddFragment extends Fragment {
             }
         });
 
+        binding.ibCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 현재 프래그먼트 종료
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().remove(SaveAddFragment.this).commit();
+
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -95,6 +105,5 @@ public class SaveAddFragment extends Fragment {
         recyclerViewAdapter.addItem(itemLists);
         recyclerViewAdapter.notifyDataSetChanged();
     }
-
 
 }
