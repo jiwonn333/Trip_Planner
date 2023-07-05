@@ -15,7 +15,7 @@ import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentSaveBinding;
 
 public class SaveFragment extends Fragment {
-    private FragmentSaveBinding binding;
+    private @NonNull FragmentSaveBinding binding;
     private SaveViewModel saveViewModel;
 
 
@@ -52,7 +52,7 @@ public class SaveFragment extends Fragment {
     private void addSaveFragment() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         SaveAddFragment saveAddFragment = new SaveAddFragment();
-        fragmentTransaction.replace(R.id.frameLayout, saveAddFragment)
+        fragmentTransaction.add(R.id.frameLayout, saveAddFragment)
                 .setReorderingAllowed(true)
                 .addToBackStack(null)
                 .commit();

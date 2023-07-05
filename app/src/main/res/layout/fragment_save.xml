@@ -1,142 +1,158 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- Bottom Sheet를 이용하기 위해 CoordinatorLayout을 선언 -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:layout_marginBottom="40dp"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="20dp"
-    tools:context=".fragment.save.SaveFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="50sp">
+        android:layout_height="match_parent"
+        tools:context=".fragment.save.SaveFragment">
 
-        <TextView
-            android:id="@+id/tv_group_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_text_group"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!-- Activity Main Content -->
 
-        <TextView
-            android:id="@+id/tv_group_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textColor="#0027FF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_group_title"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="3" />
-
-        <ImageButton
-            android:id="@+id/ib_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_outline_edit_24"
-            android:contentDescription="@string/title_save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/default_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50sp">
-
-        <!-- 편집 불가 -->
-        <ImageView
-            android:id="@+id/iv_default_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/icon_background"
-            android:padding="5dp"
-            android:src="@drawable/ic_heart"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_default_save_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/save_text_default_group"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@id/iv_default_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_default_icon" />
-
-        <TextView
-            android:id="@+id/tv_default_save_count_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/save_text_count"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/iv_default_icon"
-            app:layout_constraintTop_toBottomOf="@id/tv_default_save_title" />
-
-        <TextView
-            android:id="@+id/tv_default_save_count_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_default_save_count_name"
-            app:layout_constraintStart_toEndOf="@id/tv_default_save_count_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_default_save_title"
-            tools:text="0" />
-
-        <TextView
-            android:id="@+id/tv_default_save_count_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_text_max"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_default_save_count_size"
-            app:layout_constraintStart_toEndOf="@id/tv_default_save_count_size"
-            app:layout_constraintTop_toTopOf="@id/tv_default_save_count_size" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_add_group"
+        <!-- Persistent Bottom Sheet -->
+        <LinearLayout
+            android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:background="@drawable/effect_new_group_btn"
-            android:text="@string/add_text"
-            android:textColor="#4F81FF" />
+            android:layout_height="550dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/background_bottom_sheet"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="250dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <!-- persistent bottom sheet의 Content -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="50sp">
+
+                <TextView
+                    android:id="@+id/tv_group_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save_text_group"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_group_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textColor="#0027FF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_group_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="3" />
+
+                <ImageButton
+                    android:id="@+id/ib_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_outline_edit_24"
+                    android:contentDescription="@string/title_save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_add_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:background="@drawable/effect_new_group_btn"
+                    android:text="@string/add_text"
+                    android:textColor="#4F81FF"
+                    android:windowSoftInputMode="adjustPan" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/default_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50sp">
+
+                <!-- 편집 불가 -->
+                <ImageView
+                    android:id="@+id/iv_default_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_background"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_heart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_default_save_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/save_text_default_group"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toEndOf="@id/iv_default_icon"
+                    app:layout_constraintTop_toTopOf="@id/iv_default_icon" />
+
+                <TextView
+                    android:id="@+id/tv_default_save_count_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/save_text_count"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/iv_default_icon"
+                    app:layout_constraintTop_toBottomOf="@id/tv_default_save_title" />
+
+                <TextView
+                    android:id="@+id/tv_default_save_count_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_default_save_count_name"
+                    app:layout_constraintStart_toEndOf="@id/tv_default_save_count_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_default_save_title"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/tv_default_save_count_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save_text_max"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_default_save_count_size"
+                    app:layout_constraintStart_toEndOf="@id/tv_default_save_count_size"
+                    app:layout_constraintTop_toTopOf="@id/tv_default_save_count_size" />
 
 
-    </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
