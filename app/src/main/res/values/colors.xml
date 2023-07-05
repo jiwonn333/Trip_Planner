@@ -8,7 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="icon_color">#FF000000</color>
-    <color name="icon_selected_color">#284AFA</color>
+    <color name="icon_color">#010D3A</color>
+    <color name="icon_selected_color">#1A74BC</color>
+
+
+    <color name="btn_active">#1A74BC</color>
+    <color name="btn_disabled">#DADADA</color>
+    <color name="btn_text_disabled">#6B6B6B</color>
 
 </resources>

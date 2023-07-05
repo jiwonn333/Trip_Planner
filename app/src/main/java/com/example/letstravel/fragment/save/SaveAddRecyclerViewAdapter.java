@@ -20,7 +20,7 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
     Context context;
     private ArrayList<RecyclerViewItem> itemLists; // 어댑터에 들어갈 리스트
 
-    private int selectedItemPosition = -1;
+    private int selectedItemPosition = 0;
 
     @SuppressLint("NotifyDataSetChanged")
     public void addItem(ArrayList<RecyclerViewItem> itemLists) {

@@ -1,7 +1,10 @@
 package com.example.letstravel.fragment.save;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ public class SaveAddFragment extends Fragment {
 
     private FragmentSaveAddBinding binding;
     SaveViewModel saveViewModel;
+
 
     public SaveAddFragment() {
     }
@@ -58,6 +62,29 @@ public class SaveAddFragment extends Fragment {
 
         initRecyclerView();
 
+        binding.etAddGroupTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (binding.etAddGroupTitle.length() > 0) {
+                    binding.btnComplete.setClickable(true);
+                    binding.btnComplete.setBackgroundResource(R.drawable.add_button_active_background);
+                } else {
+                    binding.btnComplete.setClickable(false);
+                    binding.btnComplete.setBackgroundResource(R.drawable.add_button_background);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     private void initRecyclerView() {
@@ -69,4 +96,6 @@ public class SaveAddFragment extends Fragment {
         recyclerViewAdapter.addItem(itemLists);
         recyclerViewAdapter.notifyDataSetChanged();
     }
+
+
 }

@@ -10,6 +10,7 @@
     android:paddingEnd="10sp"
     tools:context=".fragment.save.SaveAddFragment">
 
+
     <TextView
         android:id="@+id/tv_add_title"
         android:layout_width="match_parent"
@@ -20,7 +21,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/et_add_group"
+        app:layout_constraintBottom_toTopOf="@id/et_add_group_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +35,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_add_title" />
 
     <EditText
-        android:id="@+id/et_add_group"
+        android:id="@+id/et_add_group_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40sp"
@@ -56,7 +57,7 @@
         android:textColorHint="#8F8F8F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_group" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_group_title" />
 
 
     <TextView
@@ -81,75 +82,18 @@
         tools:listitem="@layout/icon_list" />
 
 
-    <!--    <RadioGroup-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/tv_select_icon">-->
-
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_star"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_star" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_heart"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_heart" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_flash"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_flash" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/ic_check"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_check" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/ic_eye"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_eye" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/ic_thumb_up"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_thumb_up" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_smile"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_smile" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_diamond"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_diamond" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_square"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_square" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_flower"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@drawable/ic_icon_flower" />-->
-
-    <!--    </RadioGroup>-->
+    <Button
+        android:id="@+id/btn_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:background="@drawable/add_button_background"
+        android:text="@string/text_active"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

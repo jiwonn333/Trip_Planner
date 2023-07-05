@@ -42,5 +42,6 @@
     <string name="add_title_text_hint">그룹명을 입력해 주세요.</string>
     <string name="add_desc_text_hint">설명을 입력해 주세요.</string>
     <string name="text_select_icon">아이콘 선택</string>
+    <string name="text_active">완료</string>
 
 </resources>
