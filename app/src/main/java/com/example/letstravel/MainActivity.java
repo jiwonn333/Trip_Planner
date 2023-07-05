@@ -7,17 +7,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -119,6 +119,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_view);
         NavigationUI.setupWithNavController(bottomNav, navController);
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
+                if (navDestination.getId() == R.id.navigation_save_add) {
+                    bottomNav.setVisibility(View.GONE);
+                } else {
+                    bottomNav.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     /**
@@ -216,8 +227,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             }
                         } else {
-                            Log.d(TAG, "현재 위치는 null입니다.");
-                            Log.e(TAG, "Exception: %s", task.getException());
+                            Log.d("test", "현재 위치는 null입니다.");
+                            Log.e("test", "Exception: %s", task.getException());
                             googleMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
                             googleMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -226,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
             }
         } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage(), e);
+            Log.e("test", "Exception: " + e.getMessage());
         }
     }
 
