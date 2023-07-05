@@ -1,7 +1,6 @@
 package com.example.letstravel.fragment.save;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -72,10 +71,10 @@ public class SaveAddFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (binding.etAddGroupTitle.length() > 0) {
                     binding.btnComplete.setClickable(true);
-                    binding.btnComplete.setBackgroundResource(R.drawable.add_button_active_background);
+                    binding.btnComplete.setBackgroundResource(R.drawable.background_add_btn_active);
                 } else {
                     binding.btnComplete.setClickable(false);
-                    binding.btnComplete.setBackgroundResource(R.drawable.add_button_background);
+                    binding.btnComplete.setBackgroundResource(R.drawable.background_add_btn_default);
                 }
             }
 

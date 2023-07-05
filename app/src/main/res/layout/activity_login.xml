@@ -54,7 +54,7 @@
         android:id="@+id/btn_kakao"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/custom_login_button"
+        android:background="@drawable/custom_login_btn"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_naver"
