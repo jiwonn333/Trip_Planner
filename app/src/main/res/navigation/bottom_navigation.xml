@@ -9,7 +9,7 @@
         android:id="@+id/navigation_information"
         android:name="com.example.letstravel.fragment.information.InformationFragment"
         android:label="@string/title_information"
-        tools:layout="@layout/fragment_information" >
+        tools:layout="@layout/fragment_information">
         <action
             android:id="@+id/action_navigation_information_to_navigation_search"
             app:destination="@id/navigation_search" />
@@ -28,7 +28,18 @@
         android:id="@+id/navigation_save"
         android:name="com.example.letstravel.fragment.save.SaveFragment"
         android:label="@string/title_save"
-        tools:layout="@layout/fragment_save" />
+        tools:layout="@layout/fragment_save">
+        <action
+            android:id="@+id/action_navigation_save_to_navigation_save_add"
+            app:destination="@id/navigation_save_add" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_save_add"
+        android:name="com.example.letstravel.fragment.save.SaveAddFragment"
+        android:label="추가"
+        tools:layout="@layout/fragment_save_add" />
+
 
     <fragment
         android:id="@+id/navigation_transport"
