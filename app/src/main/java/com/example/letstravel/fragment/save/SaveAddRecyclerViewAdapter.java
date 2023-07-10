@@ -18,27 +18,30 @@ import java.util.ArrayList;
 
 public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecyclerViewAdapter.ViewHolder> {
     Context context;
-    private ArrayList<RecyclerViewItem> itemLists; // 어댑터에 들어갈 리스트
-
+    private ArrayList<RecyclerViewAddItem> itemLists;
     private int selectedItemPosition = 0;
+    private OnItemClickListener itemClickListener = null;
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void addItem(ArrayList<RecyclerViewItem> itemLists) {
-        this.itemLists = itemLists;
-        notifyDataSetChanged();
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 
-    //메인 액티비티와 연결
-    public SaveAddRecyclerViewAdapter(Context context, ArrayList<RecyclerViewItem> itemLists) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+
+
+    public SaveAddRecyclerViewAdapter(Context context, ArrayList<RecyclerViewAddItem> itemLists) {
         super();
         this.context = context;
         this.itemLists = itemLists;
     }
 
-    public SaveAddRecyclerViewAdapter(Context context) {
-        this.context = context;
+    @SuppressLint("NotifyDataSetChanged")
+    public void addItem(ArrayList<RecyclerViewAddItem> itemLists) {
+        this.itemLists = itemLists;
+        notifyDataSetChanged();
     }
-
 
     // 아이템 뷰를 위한 뷰 홀더 객체를 생성하여 리턴
     @NonNull
@@ -61,6 +64,7 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
         return 0;
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
@@ -70,7 +74,7 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
 
         }
 
-        public void setData(RecyclerViewItem item) {
+        public void setData(RecyclerViewAddItem item) {
             imageView.setImageResource(item.getIconDrawable());
             boolean isSelected = selectedItemPosition == getBindingAdapterPosition();
             int itemColor = isSelected ? R.color.icon_selected_color : R.color.icon_color;
@@ -79,8 +83,22 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
 
             imageView.setOnClickListener(v -> {
                 selectedItemPosition = getBindingAdapterPosition();
+                if (selectedItemPosition != RecyclerView.NO_POSITION) {
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(itemView, selectedItemPosition);
+                    }
+                }
                 notifyDataSetChanged();
+//
+//                if (selectedItemPosition != RecyclerView.NO_POSITION) {
+//                    if (itemClickListener != null) {
+//                        itemClickListener.onItemClick(itemView, selectedItemPosition);
+//                    }
+//                }
+//                notifyDataSetChanged();
             });
+
+
         }
     }
 }
