@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/icon_background"
                     android:padding="5dp"
-                    android:src="@drawable/ic_heart"
+                    android:src="@drawable/ic_icon_heart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -148,8 +148,10 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/save_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                tools:listitem="@layout/save_item" />
 
         </LinearLayout>
 
