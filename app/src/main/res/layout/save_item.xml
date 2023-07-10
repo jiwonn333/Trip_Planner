@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_heart" />
+        tools:src="@drawable/ic_icon_heart" />
 
     <TextView
         android:id="@+id/tv_save_title"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_save_count_name"
         app:layout_constraintStart_toEndOf="@id/tv_save_count_name"
         app:layout_constraintTop_toBottomOf="@id/tv_save_title"
@@ -52,7 +52,7 @@
         android:id="@+id/tv_save_count_max"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_save_count_size"
         app:layout_constraintStart_toEndOf="@id/tv_save_count_size"
         app:layout_constraintTop_toTopOf="@id/tv_save_count_size"
