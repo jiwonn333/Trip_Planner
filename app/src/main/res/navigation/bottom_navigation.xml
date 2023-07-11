@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_navigation_save_to_navigation_save_add"
             app:destination="@id/navigation_save_add" />
+        <action
+            android:id="@+id/action_navigation_save_to_navigation_save_detail"
+            app:destination="@id/navigation_save_detail" />
     </fragment>
 
     <fragment
@@ -40,6 +43,15 @@
         android:label="추가"
         tools:layout="@layout/fragment_save_add" />
 
+    <fragment
+        android:id="@+id/navigation_save_detail"
+        android:name="com.example.letstravel.fragment.save.SaveDetailFragment"
+        android:label="그룹 상세보기"
+        tools:layout="@layout/fragment_save_detail">
+        <action
+            android:id="@+id/action_navigation_save_detail_to_navigation_search"
+            app:destination="@id/navigation_search" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_transport"
@@ -52,4 +64,5 @@
         android:name="com.example.letstravel.fragment.mypage.MyPageFragment"
         android:label="@string/title_mypage"
         tools:layout="@layout/fragment_transport" />
+
 </navigation>
