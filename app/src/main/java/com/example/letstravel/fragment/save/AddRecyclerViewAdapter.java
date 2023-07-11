@@ -16,7 +16,7 @@ import com.example.letstravel.R;
 import java.util.ArrayList;
 
 
-public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecyclerViewAdapter.ViewHolder> {
+public class AddRecyclerViewAdapter extends RecyclerView.Adapter<AddRecyclerViewAdapter.ViewHolder> {
     Context context;
     private ArrayList<RecyclerViewAddItem> itemLists;
     private int selectedItemPosition = 0;
@@ -31,7 +31,7 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
     }
 
 
-    public SaveAddRecyclerViewAdapter(Context context, ArrayList<RecyclerViewAddItem> itemLists) {
+    public AddRecyclerViewAdapter(Context context, ArrayList<RecyclerViewAddItem> itemLists) {
         super();
         this.context = context;
         this.itemLists = itemLists;

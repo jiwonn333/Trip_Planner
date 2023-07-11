@@ -8,7 +8,7 @@
     android:paddingStart="10sp"
     android:paddingTop="10sp"
     android:paddingEnd="10sp"
-    tools:context=".fragment.save.SaveAddFragment">
+    tools:context=".fragment.save.AddFragment">
 
     <TextView
         android:id="@+id/tv_add_title"

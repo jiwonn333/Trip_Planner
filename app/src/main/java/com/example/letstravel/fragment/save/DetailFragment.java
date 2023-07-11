@@ -12,13 +12,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.letstravel.databinding.FragmentSaveDetailBinding;
 
-public class SaveDetailFragment extends Fragment {
+public class DetailFragment extends Fragment {
 
-    private SaveDetailViewModel saveDetailViewModel;
+    private DetailViewModel saveDetailViewModel;
     private FragmentSaveDetailBinding binding;
 
-    public static SaveDetailFragment newInstance() {
-        return new SaveDetailFragment();
+    public static DetailFragment newInstance() {
+        return new DetailFragment();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SaveDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        saveDetailViewModel = new ViewModelProvider(this).get(SaveDetailViewModel.class);
+        saveDetailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
     }
 }

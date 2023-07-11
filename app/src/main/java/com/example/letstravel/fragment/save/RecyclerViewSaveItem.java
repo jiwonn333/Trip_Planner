@@ -1,10 +1,10 @@
 package com.example.letstravel.fragment.save;
 
-public class RecyclerViewItem {
+public class RecyclerViewSaveItem {
     private int iconDrawable;
     private String title;
 
-    public RecyclerViewItem(int iconDrawable, String title) {
+    public RecyclerViewSaveItem(int iconDrawable, String title) {
         this.iconDrawable = iconDrawable;
         this.title = title;
     }

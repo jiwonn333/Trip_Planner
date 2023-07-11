@@ -39,13 +39,13 @@
 
     <fragment
         android:id="@+id/navigation_save_add"
-        android:name="com.example.letstravel.fragment.save.SaveAddFragment"
+        android:name="com.example.letstravel.fragment.save.AddFragment"
         android:label="추가"
         tools:layout="@layout/fragment_save_add" />
 
     <fragment
         android:id="@+id/navigation_save_detail"
-        android:name="com.example.letstravel.fragment.save.SaveDetailFragment"
+        android:name="com.example.letstravel.fragment.save.DetailFragment"
         android:label="그룹 상세보기"
         tools:layout="@layout/fragment_save_detail">
         <action

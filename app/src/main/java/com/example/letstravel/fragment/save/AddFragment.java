@@ -22,22 +22,22 @@ import com.example.letstravel.fragment.common.BaseFragment;
 
 import java.util.ArrayList;
 
-public class SaveAddFragment extends BaseFragment {
+public class AddFragment extends BaseFragment {
 
     private FragmentSaveAddBinding binding;
     SaveViewModel saveViewModel;
     private RecyclerView recyclerView;
-    private SaveAddRecyclerViewAdapter recyclerViewAdapter;
+    private AddRecyclerViewAdapter recyclerViewAdapter;
     private SelectedIcon selectedIcon;
     private int selectedIconPosition;
 
-    public SaveAddFragment() {
+    public AddFragment() {
     }
 
 
-    public static SaveAddFragment newInstance(int res) {
+    public static AddFragment newInstance(int res) {
 
-        return new SaveAddFragment();
+        return new AddFragment();
     }
 
     private final ArrayList<RecyclerViewAddItem> itemLists = new ArrayList<RecyclerViewAddItem>() {{
@@ -88,7 +88,7 @@ public class SaveAddFragment extends BaseFragment {
             }
         });
 
-        binding.ibCancel.setOnClickListener(v -> removeFragment(SaveAddFragment.this));
+        binding.ibCancel.setOnClickListener(v -> removeFragment(AddFragment.this));
 
         binding.btnComplete.setOnClickListener(v -> {
             String title = binding.etAddGroupTitle.getText().toString();
@@ -100,7 +100,7 @@ public class SaveAddFragment extends BaseFragment {
                     saveViewModel.setTitle(title);
                     selectedIcon = new SelectedIcon(getContext());
                     saveViewModel.setDrawable(selectedIcon.getIconDrawable(selectedIconPosition));
-                    removeFragment(SaveAddFragment.this);
+                    removeFragment(AddFragment.this);
 
                 } catch (Exception e) {
                     Log.e("test", "binding.btnComplete.setOnClickListener / e : " + e.getMessage());
@@ -113,7 +113,7 @@ public class SaveAddFragment extends BaseFragment {
     @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView() {
         recyclerView = binding.saveAddRecyclerview;
-        recyclerViewAdapter = new SaveAddRecyclerViewAdapter(getContext(), itemLists);
+        recyclerViewAdapter = new AddRecyclerViewAdapter(getContext(), itemLists);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 5);
         recyclerView.setLayoutManager(gridLayoutManager);
 
