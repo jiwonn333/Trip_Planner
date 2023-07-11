@@ -32,10 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:text="@string/save_count"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/iv_icon"
-        app:layout_constraintTop_toBottomOf="@id/tv_save_title"
-        android:text="@string/save_count" />
+        app:layout_constraintTop_toBottomOf="@id/tv_save_title" />
 
     <TextView
         android:id="@+id/tv_save_count_size"
@@ -52,11 +52,11 @@
         android:id="@+id/tv_save_count_max"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/save_count_max"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_save_count_size"
         app:layout_constraintStart_toEndOf="@id/tv_save_count_size"
-        app:layout_constraintTop_toTopOf="@id/tv_save_count_size"
-        android:text="@string/save_count_max" />
+        app:layout_constraintTop_toTopOf="@id/tv_save_count_size" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

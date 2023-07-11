@@ -74,6 +74,7 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
 
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         public void setData(RecyclerViewAddItem item) {
             imageView.setImageResource(item.getIconDrawable());
             boolean isSelected = selectedItemPosition == getBindingAdapterPosition();
@@ -89,13 +90,6 @@ public class SaveAddRecyclerViewAdapter extends RecyclerView.Adapter<SaveAddRecy
                     }
                 }
                 notifyDataSetChanged();
-//
-//                if (selectedItemPosition != RecyclerView.NO_POSITION) {
-//                    if (itemClickListener != null) {
-//                        itemClickListener.onItemClick(itemView, selectedItemPosition);
-//                    }
-//                }
-//                notifyDataSetChanged();
             });
 
 

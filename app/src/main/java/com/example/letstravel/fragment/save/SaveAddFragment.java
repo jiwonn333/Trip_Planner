@@ -103,7 +103,7 @@ public class SaveAddFragment extends BaseFragment {
                     removeFragment(SaveAddFragment.this);
 
                 } catch (Exception e) {
-                    Log.e("test", "e : " + e.getMessage());
+                    Log.e("test", "binding.btnComplete.setOnClickListener / e : " + e.getMessage());
                 }
             }
         });
