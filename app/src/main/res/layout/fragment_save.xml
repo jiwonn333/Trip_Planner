@@ -47,13 +47,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:text="1"
                     android:textColor="#0027FF"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_group_title"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="3" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
                     android:id="@+id/ib_edit"
@@ -82,75 +82,13 @@
                     android:text="@string/add_text"
                     android:textColor="#4F81FF"
                     android:windowSoftInputMode="adjustPan" />
-
             </LinearLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/default_layout"
-                android:layout_width="match_parent"
-                android:layout_height="50sp">
-
-                <!-- 편집 불가 -->
-                <ImageView
-                    android:id="@+id/iv_default_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/icon_background"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_icon_heart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_default_save_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/save_text_default_group"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toEndOf="@id/iv_default_icon"
-                    app:layout_constraintTop_toTopOf="@id/iv_default_icon" />
-
-                <TextView
-                    android:id="@+id/tv_default_save_count_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/save_text_count"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/iv_default_icon"
-                    app:layout_constraintTop_toBottomOf="@id/tv_default_save_title" />
-
-                <TextView
-                    android:id="@+id/tv_default_save_count_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textSize="12dp"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_default_save_count_name"
-                    app:layout_constraintStart_toEndOf="@id/tv_default_save_count_name"
-                    app:layout_constraintTop_toBottomOf="@id/tv_default_save_title"
-                    tools:text="0" />
-
-                <TextView
-                    android:id="@+id/tv_default_save_count_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/save_text_max"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_default_save_count_size"
-                    app:layout_constraintStart_toEndOf="@id/tv_default_save_count_size"
-                    app:layout_constraintTop_toTopOf="@id/tv_default_save_count_size" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/save_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10sp"
                 tools:listitem="@layout/save_item" />
 
         </LinearLayout>

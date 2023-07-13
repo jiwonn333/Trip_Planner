@@ -96,12 +96,7 @@ public class AddFragment extends BaseFragment {
                 Toast.makeText(getContext(), "그룹명을 입력해 주세요", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    saveViewModel = new ViewModelProvider(requireActivity()).get(SaveViewModel.class);
-                    saveViewModel.setTitle(title);
-                    selectedIcon = new SelectedIcon(getContext());
-                    saveViewModel.setDrawable(selectedIcon.getIconDrawable(selectedIconPosition));
-                    removeFragment(AddFragment.this);
-
+                    initObserve(title);
                 } catch (Exception e) {
                     Log.e("test", "binding.btnComplete.setOnClickListener / e : " + e.getMessage());
                 }
@@ -124,5 +119,14 @@ public class AddFragment extends BaseFragment {
         recyclerViewAdapter.addItem(itemLists);
         recyclerViewAdapter.notifyDataSetChanged();
     }
+
+    private void initObserve(String title) {
+        saveViewModel = new ViewModelProvider(requireActivity()).get(SaveViewModel.class);
+        saveViewModel.setTitle(title);
+        selectedIcon = new SelectedIcon(getContext());
+        saveViewModel.setDrawable(selectedIcon.getIconDrawable(selectedIconPosition));
+        removeFragment(AddFragment.this);
+    }
+
 
 }

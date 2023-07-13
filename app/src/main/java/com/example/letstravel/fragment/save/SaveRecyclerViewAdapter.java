@@ -17,22 +17,30 @@ import java.util.ArrayList;
 
 public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerViewAdapter.ViewHolder> {
     Context context;
-    private ArrayList<RecyclerViewItem> itemLists;
+    private ArrayList<RecyclerViewSaveItem> itemLists;
+    private SaveRecyclerViewAdapter.OnItemClickListener itemClickListener = null;
 
-    public SaveRecyclerViewAdapter(Context context, ArrayList<RecyclerViewItem> itemLists) {
+    public interface OnItemClickListener {
+        void onItemClick(View view, String title);
+    }
+
+    public void setOnItemClickListener(SaveRecyclerViewAdapter.OnItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+
+    public SaveRecyclerViewAdapter(Context context, ArrayList<RecyclerViewSaveItem> itemLists) {
         this.context = context;
         this.itemLists = itemLists;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addItem(ArrayList<RecyclerViewItem> itemLists) {
+    public void setData(ArrayList<RecyclerViewSaveItem> itemLists) {
         this.itemLists = itemLists;
-        notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void test(int iconDrawable, String title) {
-        itemLists.add(new RecyclerViewItem(iconDrawable, title));
+    public void addItem(int iconDrawable, String title) {
+        itemLists.add(new RecyclerViewSaveItem(iconDrawable, title));
         notifyDataSetChanged();
     }
 
@@ -47,6 +55,15 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
     public void onBindViewHolder(@NonNull SaveRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.title.setText(itemLists.get(position).getTitle());
         holder.imageView.setImageResource(itemLists.get(position).getIconDrawable());
+
+        holder.itemView.setOnClickListener(v -> {
+            int pos = holder.getBindingAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(holder.itemView, holder.title.getText().toString());
+                }
+            }
+        });
     }
 
     @Override
@@ -62,10 +79,11 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.iv_icon);
+            imageView = itemView.findViewById(R.id.iv_save_icon);
             title = itemView.findViewById(R.id.tv_save_title);
             count = itemView.findViewById(R.id.tv_save_count_size);
 
         }
+
     }
 }

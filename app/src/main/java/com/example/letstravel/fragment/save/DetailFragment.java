@@ -1,5 +1,6 @@
 package com.example.letstravel.fragment.save;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,15 +8,23 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.letstravel.databinding.FragmentSaveDetailBinding;
+import com.example.letstravel.fragment.common.BaseFragment;
 
-public class DetailFragment extends Fragment {
+import java.util.ArrayList;
 
-    private DetailViewModel saveDetailViewModel;
+public class DetailFragment extends BaseFragment {
+
+    private DetailViewModel detailViewModel;
     private FragmentSaveDetailBinding binding;
+    private final ArrayList<RecyclerViewDetailItem> itemLists = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private DetailRecyclerViewAdapter recyclerViewAdapter;
 
     public static DetailFragment newInstance() {
         return new DetailFragment();
@@ -32,7 +41,33 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        saveDetailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
+        initRecyclerView();
+
+        binding.ibBack.setOnClickListener(v -> removeFragment(DetailFragment.this));
+//        binding.btnAddPlace.setOnClickListener(v -> replaceFragment(DetailFragment.this, DetailFragmentDirections.actionNavigationSaveDetailToNavigationSearch()));
+
+        getDetailTitle("title");
+
+
+    }
+
+    private void initObserve() {
+        detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void initRecyclerView() {
+        recyclerView = binding.saveDetailRecyclerview;
+        recyclerViewAdapter = new DetailRecyclerViewAdapter(getContext(), itemLists);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerViewAdapter.setData(itemLists);
+        recyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    private void getDetailTitle(String key) {
+        binding.tvText.setText(getArguments().getString(key));
     }
 }

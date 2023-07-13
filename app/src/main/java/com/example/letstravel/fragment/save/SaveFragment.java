@@ -4,7 +4,6 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +22,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import java.util.ArrayList;
 
 public class SaveFragment extends BaseFragment {
-    private @NonNull FragmentSaveBinding binding;
+    private FragmentSaveBinding binding;
     private SaveViewModel saveViewModel;
-    private final ArrayList<RecyclerViewItem> itemLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private SaveRecyclerViewAdapter recyclerViewAdapter;
-    private int position;
-
+    private final ArrayList<RecyclerViewSaveItem> itemLists = new ArrayList<RecyclerViewSaveItem>() {{
+        add(new RecyclerViewSaveItem(R.drawable.ic_icon_heart, "기본 그룹"));
+    }};
 
 
     public static SaveFragment newInstance() {
@@ -38,8 +37,7 @@ public class SaveFragment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = FragmentSaveBinding.inflate(inflater, container, false);
 
@@ -59,7 +57,6 @@ public class SaveFragment extends BaseFragment {
             }
         });
 
-        binding.btnAddGroup.setOnClickListener(v -> replaceFragment(SaveFragment.this, SaveFragmentDirections.actionNavigationSaveToNavigationSaveAdd()));
         return binding.getRoot();
     }
 
@@ -70,14 +67,15 @@ public class SaveFragment extends BaseFragment {
         initRecyclerView();
         initObserve();
 
+        binding.btnAddGroup.setOnClickListener(v -> replaceFragment(SaveFragment.this, SaveFragmentDirections.actionNavigationSaveToNavigationSaveAdd()));
+        recyclerViewAdapter.setOnItemClickListener((v, title) -> setDetailTitle("title", title));
     }
 
     private void initObserve() {
         saveViewModel = new ViewModelProvider(requireActivity()).get(SaveViewModel.class);
-        saveViewModel.getTitle().observe(getViewLifecycleOwner(), s -> {
-            Log.e("test", "iconDrawable : " + saveViewModel.getDrawable().getValue());
+        saveViewModel.getTitle().observe(getViewLifecycleOwner(), title -> {
             int iconDrawable = saveViewModel.getDrawable().getValue();
-            recyclerViewAdapter.test(iconDrawable, s);
+            recyclerViewAdapter.addItem(iconDrawable, title);
         });
     }
 
@@ -88,8 +86,14 @@ public class SaveFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerViewAdapter.addItem(itemLists);
+        recyclerViewAdapter.setData(itemLists);
         recyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    public void setDetailTitle(String key, String title) {
+        Bundle bundle = new Bundle();
+        bundle.putString(key, title);
+        dataSendFragment(SaveFragment.this, R.id.action_navigation_save_to_navigation_save_detail, bundle);
     }
 
 }
