@@ -5,11 +5,6 @@
     <string name="drawer_close">close</string>
 
     <string name="required_login">로그인이 필요합니다.</string>
-
-    <string name="kakao_app_key">ab7cad5e90bb8d9380e52c83ac51ce85</string>
-    <string name="kakao_scheme_app_key">kakaoab7cad5e90bb8d9380e52c83ac51ce85</string>
-    <string name="naver_client_id">J8WIOwga5BSn7z8rSzv0</string>
-    <string name="naver_client_secret">Wh_0nUWpwB</string>
     <string name="naver_client_name">Naver 로그인</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -18,7 +13,7 @@
     <string name="title_information">주변</string>
     <string name="title_save">저장</string>
     <string name="title_transport">대중교통</string>
-    <string name="title_mypage">주변 장소</string>
+    <string name="title_mypage">내 정보</string>
 
     <!--    Permissions    -->
     <string name="permission_rationale_location">지도에 현재 위치를 표시하는 \'내 위치\' 기능을 사용하기 위해서 위치 서비스에 대한 액세스가 필요합니다.</string>
@@ -34,7 +29,7 @@
     <string name="default_info_snippet">위치 권한이 비활성화되어 있어 장소를 찾을 수 없습니다.</string>
     <string name="save_count">개수</string>
     <string name="save_count_max">/500</string>
-    <string name="save_text_group">그룹</string>
+    <string name="save_text_group">내 목록</string>
     <string name="save_text_default_group">기본 그룹</string>
     <string name="save_text_max">/500</string>
     <string name="save_text_count">개수</string>
