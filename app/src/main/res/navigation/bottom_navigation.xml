@@ -10,18 +10,6 @@
         android:name="com.example.letstravel.fragment.information.InformationFragment"
         android:label="@string/title_information"
         tools:layout="@layout/fragment_information">
-        <action
-            android:id="@+id/action_navigation_information_to_navigation_search"
-            app:destination="@id/navigation_search" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_search"
-        android:name="com.example.letstravel.fragment.search.SearchFragment"
-        tools:layout="@layout/fragment_search">
-        <action
-            android:id="@+id/action_navigation_search_to_navigation_information"
-            app:destination="@id/navigation_information" />
     </fragment>
 
     <fragment
@@ -39,18 +27,25 @@
 
     <fragment
         android:id="@+id/navigation_save_add"
-        android:name="com.example.letstravel.fragment.save.AddFragment"
+        android:name="com.example.letstravel.fragment.save.add_group.AddFragment"
         android:label="추가"
         tools:layout="@layout/fragment_save_add" />
 
     <fragment
         android:id="@+id/navigation_save_detail"
-        android:name="com.example.letstravel.fragment.save.DetailFragment"
+        android:name="com.example.letstravel.fragment.save.detail.DetailFragment"
         android:label="그룹 상세보기"
         tools:layout="@layout/fragment_save_detail">
         <action
-            android:id="@+id/action_navigation_save_detail_to_navigation_search"
-            app:destination="@id/navigation_search" />
+            android:id="@+id/action_navigation_save_detail_to_navigation_add_place"
+            app:destination="@id/navigation_add_place" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_add_place"
+        android:name="com.example.letstravel.fragment.save.add_place.AddPlaceFragment"
+        android:label="장소 추가하기"
+        tools:layout="@layout/fragment_add_place">
     </fragment>
 
     <fragment
