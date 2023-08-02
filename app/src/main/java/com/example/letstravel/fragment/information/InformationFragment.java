@@ -16,6 +16,7 @@ import com.example.letstravel.BuildConfig;
 import com.example.letstravel.MainActivity;
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentInformationBinding;
+import com.example.letstravel.fragment.common.BaseFragment;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -34,7 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class InformationFragment extends Fragment {
+public class InformationFragment extends BaseFragment {
 
     private FragmentInformationBinding binding;
     private InformationViewModel informationViewModel;
@@ -79,7 +80,7 @@ public class InformationFragment extends Fragment {
                 informationViewModel = new ViewModelProvider(requireActivity()).get(InformationViewModel.class);
                 informationViewModel.setTitle(place.getName());
                 mainActivity = (MainActivity) getActivity();
-                informationViewModel.getTitle().observe(getViewLifecycleOwner(), title -> mainActivity.observing(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude));
+                informationViewModel.getTitle().observe(getViewLifecycleOwner(), title -> mainActivity.initObserve(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude));
                 showPhoto(place.getName(), place.getAddress());
             }
 
