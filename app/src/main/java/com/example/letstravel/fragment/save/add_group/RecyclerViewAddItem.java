@@ -1,4 +1,4 @@
-package com.example.letstravel.fragment.save;
+package com.example.letstravel.fragment.save.add_group;
 
 public class RecyclerViewAddItem {
     private int iconDrawable;

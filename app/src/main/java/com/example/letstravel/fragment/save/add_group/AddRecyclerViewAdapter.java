@@ -1,4 +1,4 @@
-package com.example.letstravel.fragment.save;
+package com.example.letstravel.fragment.save.add_group;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.letstravel.R;
+import com.example.letstravel.databinding.SaveItemBinding;
 
 import java.util.ArrayList;
 
