@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -119,10 +120,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         NavigationUI.setupWithNavController(bottomNav, navController);
 
         navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
-            if (navDestination.getId() == R.id.navigation_save_add || navDestination.getId() == R.id.navigation_save_detail) {
+            if (navDestination.getId() == R.id.navigation_save_add || navDestination.getId() == R.id.navigation_save_detail
+                    || navDestination.getId() == R.id.navigation_mypage || navDestination.getId() == R.id.navigation_add_place) {
                 bottomNav.setVisibility(View.GONE);
             } else {
                 bottomNav.setVisibility(View.VISIBLE);
+            }
+
+            if (navDestination.getId() == R.id.navigation_add_place) {
+                getSupportActionBar().hide();
+            } else {
+                getSupportActionBar().show();
             }
         });
     }
@@ -168,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // 장치의 현재 위치를 가져오고 지도의 위치를 설정
         getDeviceLocation();
+
+        markerClick();
     }
 
     /**
@@ -246,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         try {
             if (locationPermissionGranted) {
                 googleMap.setMyLocationEnabled(true);
+                googleMap.setPadding(0, 0, 0, 0);
                 googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             } else {
                 googleMap.setMyLocationEnabled(false);
@@ -358,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .show();
     }
 
-    public void observing(String title, double lat, double lng) {
+    public void initObserve(String title, double lat, double lng) {
         informationViewModel = new ViewModelProvider(this).get(InformationViewModel.class);
         // 사용자가 장소를 선택하지 않았으므로 기본 마커를 추가
         googleMap.addMarker(new MarkerOptions()
@@ -370,4 +381,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    private void markerClick() {
+        // 정보창 클릭리스너
+        googleMap.setOnInfoWindowClickListener(infoWindowClickListener);
+
+        // 마커 클릭 리스너
+        googleMap.setOnMarkerClickListener(markerClickListener);
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(MainActivity.this, "눌렀습니다!!", Toast.LENGTH_LONG);
+                return false;
+            }
+        });
+    }
+
+    GoogleMap.OnInfoWindowClickListener infoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
+        @Override
+        public void onInfoWindowClick(@NonNull Marker marker) {
+            String markerId = marker.getId();
+            Toast.makeText(MainActivity.this, "정보창 클릭 Marker ID : "
+                    + markerId, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(@NonNull Marker marker) {
+            String markerId = marker.getId();
+            // 선택한 타겟의 위치
+            LatLng location = marker.getPosition();
+            Toast.makeText(MainActivity.this, "마커 클릭 Marker ID : "
+                            + markerId + "(" + location.latitude + " " + location.longitude + ")",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    };
 }

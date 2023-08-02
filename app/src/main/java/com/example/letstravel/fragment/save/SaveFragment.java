@@ -4,6 +4,7 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +28,9 @@ public class SaveFragment extends BaseFragment {
     private SaveViewModel saveViewModel;
     private RecyclerView recyclerView;
     private SaveRecyclerViewAdapter recyclerViewAdapter;
+    private ItemTouchHelper helper;
+
+
     private final ArrayList<RecyclerViewSaveItem> itemLists = new ArrayList<RecyclerViewSaveItem>() {{
         add(new RecyclerViewSaveItem(R.drawable.ic_icon_heart, "기본 그룹"));
     }};
@@ -38,7 +43,6 @@ public class SaveFragment extends BaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         binding = FragmentSaveBinding.inflate(inflater, container, false);
 
         View bottomSheet = binding.coordinator.findViewById(R.id.bottom_sheet);
@@ -60,15 +64,20 @@ public class SaveFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.e("test", "onViewCreated 실행");
         super.onViewCreated(view, savedInstanceState);
 
         initRecyclerView();
+        setHelper();
         initObserve();
 
         binding.btnAddGroup.setOnClickListener(v -> replaceFragment(SaveFragment.this, SaveFragmentDirections.actionNavigationSaveToNavigationSaveAdd()));
-        recyclerViewAdapter.setOnItemClickListener((v, title) -> setDetailTitle("title", title));
+        recyclerViewAdapter.setOnItemClickListener((v, title) -> {
+            setDetailTitle("title", title);
+        });
     }
 
     private void initObserve() {
@@ -87,7 +96,13 @@ public class SaveFragment extends BaseFragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setData(itemLists);
-        recyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    private void setHelper() {
+        // ItemTouchHelper 생성
+        helper = new ItemTouchHelper(new ItemTouchHelperCallback(recyclerViewAdapter));
+        // RecyclerView에 ItemTouchHelper 붙이기
+        helper.attachToRecyclerView(recyclerView);
     }
 
     public void setDetailTitle(String key, String title) {
@@ -95,5 +110,4 @@ public class SaveFragment extends BaseFragment {
         bundle.putString(key, title);
         dataSendFragment(SaveFragment.this, R.id.action_navigation_save_to_navigation_save_detail, bundle);
     }
-
 }
