@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +16,7 @@ import com.example.letstravel.R;
 
 import java.util.ArrayList;
 
-public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerViewAdapter.ViewHolder> {
+public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperListener {
     Context context;
     private ArrayList<RecyclerViewSaveItem> itemLists;
     private SaveRecyclerViewAdapter.OnItemClickListener itemClickListener = null;
@@ -44,6 +45,18 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onDeleteClick(int position, RecyclerView.ViewHolder viewHolder) {
+        if (position == 0) {
+            Toast.makeText(context, "기본 그룹은 삭제할 수 없습니다.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+            itemLists.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+
     @NonNull
     @Override
     public SaveRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,7 +67,7 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
     @Override
     public void onBindViewHolder(@NonNull SaveRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.title.setText(itemLists.get(position).getTitle());
-        holder.imageView.setImageResource(itemLists.get(position).getIconDrawable());
+        holder.ivIcon.setImageResource(itemLists.get(position).getIconDrawable());
 
         holder.itemView.setOnClickListener(v -> {
             int pos = holder.getBindingAdapterPosition();
@@ -73,17 +86,16 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView ivIcon;
         TextView title;
         TextView count;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.iv_save_icon);
+            ivIcon = itemView.findViewById(R.id.iv_save_icon);
             title = itemView.findViewById(R.id.tv_save_title);
             count = itemView.findViewById(R.id.tv_save_count_size);
 
         }
-
     }
 }
