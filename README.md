@@ -3,13 +3,11 @@
 
 ---
 
-### 목적
-1. 주변
-
-### 📌 주변
-📌 Google Api Maps 사용 기반
+- Google Api Maps 사용
 - 검색
 - 사용자 주변 장소 추천
+- 길찾기 제공
+- 사용자 목록 커스텀
   
 📌 Bottom Navigation
   - 주변
