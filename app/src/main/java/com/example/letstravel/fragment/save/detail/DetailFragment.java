@@ -1,4 +1,4 @@
-package com.example.letstravel.fragment.save;
+package com.example.letstravel.fragment.save.detail;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,12 +42,10 @@ public class DetailFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initRecyclerView();
-
-        binding.ibBack.setOnClickListener(v -> removeFragment(DetailFragment.this));
-//        binding.btnAddPlace.setOnClickListener(v -> replaceFragment(DetailFragment.this, DetailFragmentDirections.actionNavigationSaveDetailToNavigationSearch()));
-
         getDetailTitle("title");
 
+        binding.ibBack.setOnClickListener(v -> removeFragment(DetailFragment.this));
+        binding.btnAddPlace.setOnClickListener(v -> replaceFragment(DetailFragment.this, DetailFragmentDirections.actionNavigationSaveDetailToNavigationAddPlace()));
 
     }
 
@@ -64,7 +61,6 @@ public class DetailFragment extends BaseFragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setData(itemLists);
-        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void getDetailTitle(String key) {

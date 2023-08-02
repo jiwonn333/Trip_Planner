@@ -1,4 +1,4 @@
-package com.example.letstravel.fragment.save;
+package com.example.letstravel.fragment.save.detail;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -23,14 +23,8 @@ public class DetailRecyclerViewAdapter extends RecyclerView.Adapter<DetailRecycl
         this.itemLists = itemLists;
     }
 
-    public void addItem(int iconDrawable, String title) {
-        itemLists.add(new RecyclerViewDetailItem(iconDrawable, title));
-        notifyDataSetChanged();
-    }
-
     public void setData(ArrayList<RecyclerViewDetailItem> itemLists) {
         this.itemLists = itemLists;
-        notifyDataSetChanged();
     }
 
     @NonNull

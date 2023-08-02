@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".fragment.save.DetailFragment">
+        tools:context=".fragment.save.detail.DetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_header"

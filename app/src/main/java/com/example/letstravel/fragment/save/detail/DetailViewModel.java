@@ -1,4 +1,4 @@
-package com.example.letstravel.fragment.save;
+package com.example.letstravel.fragment.save.detail;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
