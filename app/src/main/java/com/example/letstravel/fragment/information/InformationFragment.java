@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.letstravel.BuildConfig;
@@ -42,6 +41,7 @@ public class InformationFragment extends BaseFragment {
     private MainActivity mainActivity;
     private PlacesClient placesClient;
     final String placeId = BuildConfig.PLACE_ID;
+    private boolean isCheckedStar = false;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -57,7 +57,7 @@ public class InformationFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialized();
-
+        setFavorites();
     }
 
     private void initialized() {
@@ -148,6 +148,22 @@ public class InformationFragment extends BaseFragment {
 //            binding.tvSearch.setText(search);
 //        });
 //    }
+
+    private void setFavorites() {
+        binding.ivStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isCheckedStar) {
+                    binding.ivStar.setBackgroundResource(R.drawable.ic_full_star);
+                    isCheckedStar = false;
+                } else {
+                    binding.ivStar.setBackgroundResource(R.drawable.ic_outline_star_24);
+                    isCheckedStar = true;
+                }
+
+            }
+        });
+    }
 
 
     @Override
