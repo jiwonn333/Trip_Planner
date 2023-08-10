@@ -16,6 +16,8 @@ import com.example.letstravel.MainActivity;
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentInformationBinding;
 import com.example.letstravel.fragment.common.BaseFragment;
+import com.example.letstravel.fragment.common.Info;
+import com.example.letstravel.fragment.common.SharedViewModel;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,6 +31,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,6 +46,9 @@ public class InformationFragment extends BaseFragment {
     final String placeId = BuildConfig.PLACE_ID;
     private boolean isCheckedStar = false;
 
+    // 추가
+    private SharedViewModel model;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,9 +61,11 @@ public class InformationFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.e("test", "onViewCreated()");
         initialized();
         setFavorites();
+
+        model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
     private void initialized() {
@@ -76,12 +84,9 @@ public class InformationFragment extends BaseFragment {
         autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                Log.d("test", "place id : " + place.getId());
-                informationViewModel = new ViewModelProvider(requireActivity()).get(InformationViewModel.class);
-                informationViewModel.setTitle(place.getName());
-                mainActivity = (MainActivity) getActivity();
-                informationViewModel.getTitle().observe(getViewLifecycleOwner(), title -> mainActivity.initObserve(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude));
-                showPhoto(place.getName(), place.getAddress());
+
+//                informationViewModel.getSaveInfo().observe(getViewLifecycleOwner(), saveInfos -> mainActivity.initObserve(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude));
+//                showPhoto(place.getName(), place.getAddress());
             }
 
             @Override
@@ -150,18 +155,19 @@ public class InformationFragment extends BaseFragment {
 //    }
 
     private void setFavorites() {
-        binding.ivStar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isCheckedStar) {
-                    binding.ivStar.setBackgroundResource(R.drawable.ic_full_star);
-                    isCheckedStar = false;
-                } else {
-                    binding.ivStar.setBackgroundResource(R.drawable.ic_outline_star_24);
-                    isCheckedStar = true;
-                }
+        binding.ivStar.setOnClickListener(v -> {
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+            bottomSheetDialog.setContentView(getLayoutInflater().inflate(R.layout.test, null));
 
+            if (isCheckedStar) {
+                binding.ivStar.setBackgroundResource(R.drawable.ic_full_star);
+                bottomSheetDialog.show();
+                isCheckedStar = false;
+            } else {
+                binding.ivStar.setBackgroundResource(R.drawable.ic_outline_star_24);
+                isCheckedStar = true;
             }
+
         });
     }
 
@@ -170,6 +176,7 @@ public class InformationFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        Log.d("test", "onDestroyView()");
     }
 
 }

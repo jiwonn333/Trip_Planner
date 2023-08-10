@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10sp"
         android:background="@drawable/background_edit_text"
-        android:hint="@string/add_title_text_hint"
+        android:hint="@string/add_desc_text_hint"
         android:textColorHint="#8F8F8F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -13,12 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.letstravel.R;
+import com.example.letstravel.fragment.common.Group;
 
 import java.util.ArrayList;
 
 public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperListener {
     Context context;
-    private ArrayList<RecyclerViewSaveItem> itemLists;
+    private ArrayList<Group> itemLists;
     private SaveRecyclerViewAdapter.OnItemClickListener itemClickListener = null;
 
     public interface OnItemClickListener {
@@ -29,19 +30,18 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
         this.itemClickListener = listener;
     }
 
-    public SaveRecyclerViewAdapter(Context context, ArrayList<RecyclerViewSaveItem> itemLists) {
+    public SaveRecyclerViewAdapter(Context context) {
         this.context = context;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(ArrayList<Group> itemLists) {
         this.itemLists = itemLists;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(ArrayList<RecyclerViewSaveItem> itemLists) {
-        this.itemLists = itemLists;
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    public void addItem(int iconDrawable, String title) {
-        itemLists.add(new RecyclerViewSaveItem(iconDrawable, title));
+    public void addItem(String title, int iconDrawable) {
+        itemLists.add(new Group(title, iconDrawable));
         notifyDataSetChanged();
     }
 
@@ -67,7 +67,7 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
     @Override
     public void onBindViewHolder(@NonNull SaveRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.title.setText(itemLists.get(position).getTitle());
-        holder.ivIcon.setImageResource(itemLists.get(position).getIconDrawable());
+        holder.ivIcon.setImageResource(itemLists.get(position).getDrawable());
 
         holder.itemView.setOnClickListener(v -> {
             int pos = holder.getBindingAdapterPosition();

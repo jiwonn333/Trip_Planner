@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,26 +21,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentSaveBinding;
 import com.example.letstravel.fragment.common.BaseFragment;
+import com.example.letstravel.fragment.common.Group;
+import com.example.letstravel.fragment.common.SharedViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SaveFragment extends BaseFragment {
     private FragmentSaveBinding binding;
-    private SaveViewModel saveViewModel;
     private RecyclerView recyclerView;
     private SaveRecyclerViewAdapter recyclerViewAdapter;
     private ItemTouchHelper helper;
 
+    private SharedViewModel sharedViewModel;
 
-    private final ArrayList<RecyclerViewSaveItem> itemLists = new ArrayList<RecyclerViewSaveItem>() {{
-        add(new RecyclerViewSaveItem(R.drawable.ic_icon_heart, "기본 그룹"));
+    private final ArrayList<Group> itemLists = new ArrayList<Group>() {{
+        add(new Group("기본 그룹", R.drawable.ic_icon_heart));
     }};
-
-
-    public static SaveFragment newInstance() {
-        return new SaveFragment();
-    }
 
 
     @Override
@@ -81,17 +81,20 @@ public class SaveFragment extends BaseFragment {
     }
 
     private void initObserve() {
-        saveViewModel = new ViewModelProvider(requireActivity()).get(SaveViewModel.class);
-        saveViewModel.getTitle().observe(getViewLifecycleOwner(), title -> {
-            int iconDrawable = saveViewModel.getDrawable().getValue();
-            recyclerViewAdapter.addItem(iconDrawable, title);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel.getGroup().observe(getViewLifecycleOwner(), new Observer<Group>() {
+            @Override
+            public void onChanged(Group group) {
+                recyclerViewAdapter.addItem(sharedViewModel.getGroup().getValue().getTitle(), sharedViewModel.getGroup().getValue().getDrawable());
+                Toast.makeText(getContext(), "변경된거 확인", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView() {
         recyclerView = binding.saveRecyclerview;
-        recyclerViewAdapter = new SaveRecyclerViewAdapter(getContext(), itemLists);
+        recyclerViewAdapter = new SaveRecyclerViewAdapter(getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);

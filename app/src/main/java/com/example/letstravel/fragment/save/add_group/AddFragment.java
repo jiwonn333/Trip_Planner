@@ -19,28 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.letstravel.R;
 import com.example.letstravel.databinding.FragmentSaveAddBinding;
 import com.example.letstravel.fragment.common.BaseFragment;
-import com.example.letstravel.fragment.save.SaveViewModel;
+import com.example.letstravel.fragment.common.Group;
+import com.example.letstravel.fragment.common.SharedViewModel;
 import com.example.letstravel.fragment.save.SelectedIcon;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddFragment extends BaseFragment {
 
     private FragmentSaveAddBinding binding;
-    SaveViewModel saveViewModel;
+    private SharedViewModel sharedViewModel;
     private RecyclerView recyclerView;
     private AddRecyclerViewAdapter recyclerViewAdapter;
     private SelectedIcon selectedIcon;
     private int selectedIconPosition;
-
-    public AddFragment() {
-    }
-
-
-    public static AddFragment newInstance(int res) {
-
-        return new AddFragment();
-    }
 
     private final ArrayList<RecyclerViewAddItem> itemLists = new ArrayList<RecyclerViewAddItem>() {{
         add(new RecyclerViewAddItem(R.drawable.ic_icon_star));
@@ -68,6 +61,7 @@ public class AddFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initRecyclerView();
+        initObserve();
 
         binding.etAddGroupTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -94,11 +88,15 @@ public class AddFragment extends BaseFragment {
 
         binding.btnComplete.setOnClickListener(v -> {
             String title = binding.etAddGroupTitle.getText().toString();
+            String description = binding.etAddDescription.getText().toString();
             if (title.isEmpty()) {
-                Toast.makeText(getContext(), "그룹명을 입력해 주세요", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.add_title_text_hint, Toast.LENGTH_SHORT).show();
+            } else if (description.isEmpty()) {
+                Toast.makeText(getContext(), R.string.add_desc_text_hint, Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    initObserve(title);
+                    sharedViewModel.setGroup(new Group(title, description, itemLists.get(selectedIconPosition).getIconDrawable()));
+                    removeFragment(AddFragment.this);
                 } catch (Exception e) {
                     Log.e("test", "binding.btnComplete.setOnClickListener / e : " + e.getMessage());
                 }
@@ -122,12 +120,9 @@ public class AddFragment extends BaseFragment {
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
-    private void initObserve(String title) {
-        saveViewModel = new ViewModelProvider(requireActivity()).get(SaveViewModel.class);
-        saveViewModel.setTitle(title);
+    private void initObserve() {
         selectedIcon = new SelectedIcon(getContext());
-        saveViewModel.setDrawable(selectedIcon.getIconDrawable(selectedIconPosition));
-        removeFragment(AddFragment.this);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
 
