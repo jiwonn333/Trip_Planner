@@ -36,13 +36,22 @@ public class SaveFragment extends BaseFragment {
 
     private SharedViewModel sharedViewModel;
 
-    private final ArrayList<Group> itemLists = new ArrayList<Group>() {{
-        add(new Group("기본 그룹", R.drawable.ic_icon_heart));
-    }};
+//    private final ArrayList<Group> itemLists = new ArrayList<Group>() {{
+//        add(new Group("기본 그룹", R.drawable.ic_icon_heart));
+//    }};
 
+    private final Group defaultGroup = new Group("기본 그룹", R.drawable.ic_icon_heart);
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.e("test", "onCreate 실행");
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e("test", "onCreateView 실행");
+
         binding = FragmentSaveBinding.inflate(inflater, container, false);
 
         View bottomSheet = binding.coordinator.findViewById(R.id.bottom_sheet);
@@ -80,17 +89,6 @@ public class SaveFragment extends BaseFragment {
         });
     }
 
-    private void initObserve() {
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        sharedViewModel.getGroup().observe(getViewLifecycleOwner(), new Observer<Group>() {
-            @Override
-            public void onChanged(Group group) {
-                recyclerViewAdapter.addItem(sharedViewModel.getGroup().getValue().getTitle(), sharedViewModel.getGroup().getValue().getDrawable());
-                Toast.makeText(getContext(), "변경된거 확인", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView() {
         recyclerView = binding.saveRecyclerview;
@@ -98,7 +96,30 @@ public class SaveFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerViewAdapter.setData(itemLists);
+        recyclerViewAdapter.addItem(defaultGroup);
+    }
+
+    private void initObserve() {
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel.getGroup().observe(getViewLifecycleOwner(), new Observer<List<Group>>() {
+            @Override
+            public void onChanged(List<Group> groupList) {
+                recyclerViewAdapter.addAll(groupList);
+                Toast.makeText(getContext(), "변경된거 확인", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e("test", "onDestroyView 실행");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("test", "onDestroy 실행");
     }
 
     private void setHelper() {

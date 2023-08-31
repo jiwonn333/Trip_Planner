@@ -16,10 +16,11 @@ import com.example.letstravel.R;
 import com.example.letstravel.fragment.common.Group;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperListener {
     Context context;
-    private ArrayList<Group> itemLists;
+    private List<Group> itemLists = new ArrayList<>();
     private SaveRecyclerViewAdapter.OnItemClickListener itemClickListener = null;
 
     public interface OnItemClickListener {
@@ -35,13 +36,18 @@ public class SaveRecyclerViewAdapter extends RecyclerView.Adapter<SaveRecyclerVi
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(ArrayList<Group> itemLists) {
+    public void setData(List<Group> itemLists) {
         this.itemLists = itemLists;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addItem(String title, int iconDrawable) {
-        itemLists.add(new Group(title, iconDrawable));
+    public void addItem(Group item) {
+        itemLists.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Group> groupList) {
+        itemLists.addAll(groupList);
         notifyDataSetChanged();
     }
 

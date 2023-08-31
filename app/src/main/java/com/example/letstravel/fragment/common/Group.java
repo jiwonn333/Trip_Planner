@@ -1,5 +1,7 @@
 package com.example.letstravel.fragment.common;
 
+import java.util.Objects;
+
 public class Group {
     private String title;
     private String description;

@@ -24,7 +24,6 @@ import com.example.letstravel.fragment.common.SharedViewModel;
 import com.example.letstravel.fragment.save.SelectedIcon;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddFragment extends BaseFragment {
 
@@ -89,13 +88,21 @@ public class AddFragment extends BaseFragment {
         binding.btnComplete.setOnClickListener(v -> {
             String title = binding.etAddGroupTitle.getText().toString();
             String description = binding.etAddDescription.getText().toString();
+            Group group = new Group(title, description, itemLists.get(selectedIconPosition).getIconDrawable());
+
+            Group group1 = new Group(title, description, itemLists.get(selectedIconPosition).getIconDrawable());
+            Group group2 = new Group(title, description, itemLists.get(selectedIconPosition).getIconDrawable());
+            Log.e("test", "Result : " + group1.equals(group2));
+
             if (title.isEmpty()) {
                 Toast.makeText(getContext(), R.string.add_title_text_hint, Toast.LENGTH_SHORT).show();
             } else if (description.isEmpty()) {
                 Toast.makeText(getContext(), R.string.add_desc_text_hint, Toast.LENGTH_SHORT).show();
+            } else if (sharedViewModel.checkAlreadyExistGroup(group)) {
+                Toast.makeText(getContext(), "이미 존재 하는 그룹명 입니다.", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    sharedViewModel.setGroup(new Group(title, description, itemLists.get(selectedIconPosition).getIconDrawable()));
+                    sharedViewModel.addGroup(group);
                     removeFragment(AddFragment.this);
                 } catch (Exception e) {
                     Log.e("test", "binding.btnComplete.setOnClickListener / e : " + e.getMessage());
