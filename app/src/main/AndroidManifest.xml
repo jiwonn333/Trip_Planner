@@ -29,6 +29,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
+        <activity android:name=".MainActivity2" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -51,7 +53,7 @@
                 <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
                 <data
                     android:host="oauth"
-                    android:scheme="${KAKAO_SCHEME_APP_KEY}"/>
+                    android:scheme="${KAKAO_SCHEME_APP_KEY}" />
             </intent-filter>
         </activity>
     </application>
