@@ -3,6 +3,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("com.android.application")
     id("androidx.navigation.safeargs")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     kotlin("android")
     kotlin("android.extensions")
 }
@@ -64,6 +65,9 @@ dependencies {
     // Legacy
     implementation(Libraries.Legacy.LEGACY)
     implementation(Libraries.Swipe.REFRESH_LAYOUT)
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // TEST
     testImplementation(Libraries.Test.JUNIT)
