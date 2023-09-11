@@ -43,9 +43,9 @@
 
     <fragment
         android:id="@+id/navigation_add_place"
-        android:name="com.example.letstravel.fragment.save.add_place.AddPlaceFragment"
+        android:name="com.example.letstravel.fragment.save.add_group.AddFragment"
         android:label="장소 추가하기"
-        tools:layout="@layout/fragment_add_place">
+        tools:layout="@layout/fragment_save_add">
     </fragment>
 
     <fragment
@@ -58,6 +58,6 @@
         android:id="@+id/navigation_mypage"
         android:name="com.example.letstravel.fragment.mypage.MyPageFragment"
         android:label="@string/title_mypage"
-        tools:layout="@layout/fragment_transport" />
+        tools:layout="@layout/fragment_mypage" />
 
 </navigation>
