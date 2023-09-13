@@ -1,5 +1,6 @@
 package com.example.letstravel
 
+import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
@@ -91,6 +93,7 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
      *  프래그먼트에 대한 핸들 가져오기 및 콜백 등록
      *  bottom navigation 설정
      */
+    @SuppressLint("AppCompatMethod")
     private fun initialized() {
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map_container_test) as SupportMapFragment
@@ -103,16 +106,18 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
         setupWithNavController(bottomNav, navController)
 
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
-            if (navDestination.id == R.id.navigation_save_add || navDestination.id == R.id.navigation_save_detail || navDestination.id == R.id.navigation_mypage || navDestination.id == R.id.navigation_add_place) {
-                bottomNav.visibility = View.GONE
-            } else {
-                bottomNav.visibility = View.VISIBLE
+            when (navDestination.id) {
+                R.id.navigation_save_add, R.id.navigation_save_detail, R.id.navigation_add_place, R.id.navigation_mypage -> {
+                    bottomNav.visibility = View.GONE
+                    supportActionBar?.hide()
+                }
+
+                else -> {
+                    bottomNav.visibility = View.VISIBLE
+                    supportActionBar?.show()
+                }
             }
-            if (navDestination.id == R.id.navigation_save_add || navDestination.id == R.id.navigation_mypage || navDestination.id == R.id.navigation_save_detail) {
-                supportActionBar!!.hide()
-            } else {
-                supportActionBar!!.show()
-            }
+
         }
     }
 }
