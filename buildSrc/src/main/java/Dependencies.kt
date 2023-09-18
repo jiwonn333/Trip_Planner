@@ -5,7 +5,7 @@ object Dependencies {
 object Versions {
     // App Level
     const val GRADLE = "7.4.2"
-    const val KOTLIN = "1.7.21"
+    const val KOTLIN = "1.8.0"
 
     // AndroidX
     const val APP_COMPAT = "1.6.1"
@@ -34,7 +34,6 @@ object Versions {
 
     // Google
     const val GOOGLE_MAP = "18.1.0"
-    const val GOOGLE_PLACES = "16.0.0"
     const val GOOGLE_LIB_PLACES = "3.1.0"
     const val GOOGLE_LOCATION = "21.0.1"
 
@@ -77,8 +76,6 @@ object Libraries {
 
     object Google {
         const val GOOGLE_MAP = "com.google.android.gms:play-services-maps:${Versions.GOOGLE_MAP}"
-        const val GOOGLE_PLACES =
-            "com.google.android.gms:play-services-places:${Versions.GOOGLE_PLACES}"
         const val GOOGLE_LIB_PLACES = "com.google.android.libraries.places:places:${Versions.GOOGLE_LIB_PLACES}"
         const val GOOGLE_LOCATION =
             "com.google.android.gms:play-services-location:${Versions.GOOGLE_LOCATION}"
@@ -87,7 +84,7 @@ object Libraries {
     object RecyclerView {
         const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:${Versions.RECYCLERVIEW}"
         const val RECYCLERVIEW_SELECTION =
-            "androidx.recyclerview:recyclerview:${Versions.RECYCLERVIEW_SELECTION}"
+            "androidx.recyclerview:recyclerview-selection:${Versions.RECYCLERVIEW_SELECTION}"
     }
 
     object AndroidX {

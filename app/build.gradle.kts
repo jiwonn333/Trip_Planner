@@ -5,7 +5,6 @@ plugins {
     id("androidx.navigation.safeargs")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     kotlin("android")
-    kotlin("android.extensions")
 }
 
 android {
@@ -68,6 +67,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     // TEST
     testImplementation(Libraries.Test.JUNIT)
@@ -83,7 +85,6 @@ dependencies {
     // Google
     implementation(Libraries.Google.GOOGLE_MAP)
     implementation(Libraries.Google.GOOGLE_LOCATION)
-    implementation(Libraries.Google.GOOGLE_PLACES)
     implementation(Libraries.Google.GOOGLE_LIB_PLACES)
 
     // Navigation
