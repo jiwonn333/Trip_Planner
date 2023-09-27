@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_information">
+    app:startDestination="@+id/navigation_nearby">
 
     <fragment
-        android:id="@+id/navigation_information"
-        android:name="com.example.letstravel.fragment.information.InformationFragment"
+        android:id="@+id/navigation_nearby"
+        android:name="com.example.letstravel.fragment.nearby.NearbyFragment"
         android:label="@string/title_information"
-        tools:layout="@layout/fragment_information">
-    </fragment>
+        tools:layout="@layout/fragment_nearby"/>
 
     <fragment
         android:id="@+id/navigation_save"
@@ -45,8 +44,7 @@
         android:id="@+id/navigation_add_place"
         android:name="com.example.letstravel.fragment.save.add_group.AddFragment"
         android:label="장소 추가하기"
-        tools:layout="@layout/fragment_save_add">
-    </fragment>
+        tools:layout="@layout/fragment_save_add"></fragment>
 
     <fragment
         android:id="@+id/navigation_transport"
