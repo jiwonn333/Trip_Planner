@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.letstravel.BuildConfig
 import com.example.letstravel.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -61,6 +62,7 @@ class GoogleMapManager {
 
     fun setInitGoogleMap(googleMap: GoogleMap, context: Context) {
         this.googleMap = googleMap
+        Places.initialize(context, BuildConfig.MAPS_API_KEY)
         placesClient = Places.createClient(context)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
     }
@@ -92,7 +94,7 @@ class GoogleMapManager {
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = task.result
                         if (lastKnownLocation != null) {
-                            googleMap?.moveCamera(
+                            googleMap.moveCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                     LatLng(
                                         lastKnownLocation!!.latitude,
@@ -264,6 +266,5 @@ class GoogleMapManager {
             .setItems(likelyPlaceNames, listener)
             .show()
     }
-
 
 }
