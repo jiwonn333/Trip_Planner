@@ -23,7 +23,6 @@ android {
         versionCode = AppConfig.VERSION_CODE
         versionName = AppConfig.VERSION_NAME
 
-        buildConfigField("String", "PLACE_ID", getApiKey("PLACE_ID"))
         buildConfigField("String", "KAKAO_APP_KEY", getApiKey("KAKAO_APP_KEY"))
         buildConfigField("String", "MAPS_API_KEY", getApiKey("MAPS_API_KEY"))
         manifestPlaceholders["MAPS_API_KEY"] = properties["MAPS_API_KEY"].toString()
