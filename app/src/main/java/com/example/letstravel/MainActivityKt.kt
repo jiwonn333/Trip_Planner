@@ -16,10 +16,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.toolbar.*
 
 
 class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
+    private val googleMap: GoogleMap? = null
     private val googleMapManager = GoogleMapManager()
     private val permissionManager = PermissionManager()
     private lateinit var lastKnownLocation: Location
@@ -45,6 +45,14 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (googleMap != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, googleMap.cameraPosition)
+            outState.putParcelable(KEY_LOCATION, lastKnownLocation)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.current_place_menu, menu)
         return true
@@ -53,8 +61,7 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.option_get_place) {
             val locationPermissionGranted = permissionManager.isPermissionGranted(
-                this,
-                PermissionManager.AppPermission.FINE_LOCATION
+                this, PermissionManager.AppPermission.FINE_LOCATION
             )
             googleMapManager.showCurrentPlace(locationPermissionGranted, this)
         }
@@ -65,8 +72,7 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
         googleMapManager.setInitGoogleMap(googleMap, this)
 
         val locationPermissionGranted = permissionManager.isPermissionGranted(
-            this,
-            PermissionManager.AppPermission.FINE_LOCATION
+            this, PermissionManager.AppPermission.FINE_LOCATION
         )
 
         // 권한 없을 경우 설정
