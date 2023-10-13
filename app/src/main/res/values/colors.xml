@@ -15,6 +15,6 @@
 
     <color name="btn_active">#1A74BC</color>
     <color name="btn_disabled">#DADADA</color>
-    <color name="btn_text_disabled">#6B6B6B</color>
+    <color name="default_color">#6B6B6B</color>
 
 </resources>
