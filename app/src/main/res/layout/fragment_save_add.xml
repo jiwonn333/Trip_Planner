@@ -41,7 +41,7 @@
         android:layout_marginTop="40sp"
         android:background="@drawable/background_edit_text"
         android:hint="@string/add_title_text_hint"
-        android:textColorHint="#8F8F8F"
+        android:textColorHint="@color/tv_hint"
         app:layout_constraintBottom_toTopOf="@id/et_add_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
         android:layout_marginTop="10sp"
         android:background="@drawable/background_edit_text"
         android:hint="@string/add_desc_text_hint"
-        android:textColorHint="#8F8F8F"
+        android:textColorHint="@color/tv_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_add_group_title" />
