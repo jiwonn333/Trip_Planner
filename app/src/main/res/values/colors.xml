@@ -17,4 +17,6 @@
     <color name="btn_disabled">#DADADA</color>
     <color name="default_color">#6B6B6B</color>
 
+    <color name="tv_hint">#8F8F8F</color>
+
 </resources>
