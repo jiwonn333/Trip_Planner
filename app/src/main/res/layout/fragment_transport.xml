@@ -43,9 +43,12 @@
                 android:id="@+id/et_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/background_edit_text"
+                android:ellipsize="end"
                 android:hint="@string/start_point"
+                android:maxLines="1"
                 android:textColorHint="@color/tv_hint" />
 
             <EditText

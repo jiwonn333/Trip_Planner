@@ -6,9 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.example.letstravel.fragment.common.SavedStateViewModel
 import com.example.letstravel.util.GoogleMapManager
 import com.example.letstravel.util.PermissionManager
 import com.google.android.gms.maps.GoogleMap
@@ -24,6 +28,8 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
     private val permissionManager = PermissionManager()
     private lateinit var lastKnownLocation: Location
     private var cameraPosition: CameraPosition? = null
+    private lateinit var stateViewModel: SavedStateViewModel
+
 
     companion object {
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
@@ -41,14 +47,17 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 
+        stateViewModel = ViewModelProvider(this, SavedStateViewModelFactory(application, this)).get(SavedStateViewModel::class.java)
+
+
         initialized()
 
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         if (googleMap != null) {
-            outState.putParcelable(KEY_CAMERA_POSITION, googleMap.cameraPosition)
-            outState.putParcelable(KEY_LOCATION, lastKnownLocation)
+            outState.putString(KEY_CAMERA_POSITION, googleMap.cameraPosition.toString())
+            outState.putString(KEY_LOCATION, lastKnownLocation.toString())
         }
         super.onSaveInstanceState(outState)
     }
@@ -113,7 +122,7 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
 
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
             when (navDestination.id) {
-                R.id.navigation_save_add, R.id.navigation_save_detail, R.id.navigation_add_place, R.id.navigation_mypage -> {
+                R.id.navigation_save, R.id.navigation_save_add, R.id.navigation_save_detail, R.id.navigation_add_place, R.id.navigation_mypage -> {
                     bottomNav.visibility = View.GONE
                     supportActionBar?.hide()
                 }
