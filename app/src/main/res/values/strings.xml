@@ -38,5 +38,9 @@
     <string name="add_desc_text_hint">설명을 입력해 주세요.</string>
     <string name="text_select_icon">아이콘 선택</string>
     <string name="text_active">완료</string>
+    <string name="title_activity_maps_directions">MapsDirections</string>
+
+    <string name="start_point">출발지 입력</string>
+    <string name="arrive_point">도착지 입력</string>
 
 </resources>

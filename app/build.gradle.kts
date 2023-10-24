@@ -69,6 +69,7 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
 
     // TEST
     testImplementation(Libraries.Test.JUNIT)
@@ -103,6 +104,18 @@ dependencies {
 
     // Coordinator
     implementation(Libraries.CoordinatorLayout.COORDINATOR_LAYOUT)
+
+
+    // http lib
+    implementation ("com.android.volley:volley:1.2.1")
+
+    // savedStateHandle
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2")
+
+    // okhttp3
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.2.1")
+
+
 
 }
 fun getApiKey(propertyKey: String): String {

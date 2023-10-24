@@ -10,7 +10,7 @@ import com.example.letstravel.R
 import com.example.letstravel.databinding.FragmentNearbyBinding
 import com.example.letstravel.fragment.common.BaseFragment
 import com.example.letstravel.util.GoogleMapManager
-import com.example.letstravel.util.LocationManager
+import com.example.letstravel.util.MyLocationManager
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -24,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 
 class NearbyFragment : BaseFragment() {
-    private var locationManager = LocationManager()
+    private var locationManager = MyLocationManager()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val googleMapManager = GoogleMapManager()
     private var binding: FragmentNearbyBinding? = null
