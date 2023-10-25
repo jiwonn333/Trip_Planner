@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
 import android.location.LocationManager
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,7 +90,7 @@ class TransportFragment : BaseFragment() {
                                     var name = result[2].formatted_address
                                     if (name != null) {
                                         CLog.e("name : $name")
-                                        binding?.etStart?.setText("내위치: $name")
+                                        binding?.tvStart?.text = "내위치: $name"
                                     }
                                 }
                             }
