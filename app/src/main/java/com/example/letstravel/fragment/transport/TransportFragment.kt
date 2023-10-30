@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
 import android.location.LocationManager
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +45,7 @@ class TransportFragment : BaseFragment() {
         return binding!!.root
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
@@ -54,11 +54,9 @@ class TransportFragment : BaseFragment() {
             requireContext(),
             PermissionManager.AppPermission.FINE_LOCATION
         )
-        // 0. 출발지 입력 부분 >> 현재 위치 latlng 가져오기
-        test(locationPermissionGranted)
-        // 1. 현재 사용자 위치 불러온 후 start에 주소 찍어주기
-        // 2.  start/arrive 주소의 latlng 가져온 후 setting
 
+        // 휴대폰의 현재 주소 가져오기
+        test(locationPermissionGranted)
     }
 
     @SuppressLint("MissingPermission")
@@ -75,34 +73,38 @@ class TransportFragment : BaseFragment() {
 
     private fun requestService(latLng: LatLng) {
         RetrofitApiManager.getInstance()
-            .requestReverseGeoAddress(concat(latLng.latitude, latLng.longitude), "ko", BuildConfig.MAPS_API_KEY, object : RetrofitInterface {
-                @SuppressLint("SetTextI18n")
-                override fun onResponse(response: Response<*>?) {
-                    CLog.d("response : $response")
+            .requestReverseGeoAddress(
+                concat(latLng.latitude, latLng.longitude),
+                "ko",
+                BuildConfig.MAPS_API_KEY,
+                object : RetrofitInterface {
+                    @SuppressLint("SetTextI18n")
+                    override fun onResponse(response: Response<*>?) {
+                        CLog.d("response : $response")
 
-                    if (response != null) {
-                        if (response.isSuccessful) {
-                            CLog.d("response is Successful!!")
-                            var reverseGeoResponse = response.body() as ReverseGeoResponse
-                            if (reverseGeoResponse != null) {
-                                var result = reverseGeoResponse.results
-                                if (result != null) {
-                                    var name = result[2].formatted_address
-                                    if (name != null) {
-                                        CLog.e("name : $name")
-                                        binding?.tvStart?.text = "내위치: $name"
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                CLog.d("response is Successful!!")
+                                var reverseGeoResponse = response.body() as ReverseGeoResponse
+                                if (reverseGeoResponse != null) {
+                                    var result = reverseGeoResponse.results
+                                    if (result != null) {
+                                        var name = result[2].formatted_address
+                                        if (name != null) {
+                                            CLog.e("name : $name")
+                                            binding?.tvStart?.text = "내위치: $name"
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                override fun onFailure(t: Throwable?) {
-                    CLog.e(t.toString())
-                }
+                    override fun onFailure(t: Throwable?) {
+                        CLog.e(t.toString())
+                    }
 
-            })
+                })
     }
 
 //    onViewStateRestored??
