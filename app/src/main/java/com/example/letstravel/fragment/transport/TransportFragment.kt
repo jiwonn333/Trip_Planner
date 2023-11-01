@@ -66,14 +66,21 @@ class TransportFragment : BaseFragment() {
             PermissionManager.AppPermission.FINE_LOCATION
         )
 
-        // get current address test
-        test(locationPermissionGranted)
+        binding?.ibSwap?.setOnClickListener {
+            var swap = binding?.tvStart?.text.toString()
+            binding?.tvStart?.text = binding?.tvArrive?.text.toString()
+            binding?.tvArrive?.text = swap
+        }
+
+
+        getCurrentAddress(locationPermissionGranted)
         initRecyclerView()
+
 
     }
 
     @SuppressLint("MissingPermission")
-    private fun test(locationPermissionGranted: Boolean) {
+    private fun getCurrentAddress(locationPermissionGranted: Boolean) {
         if (locationPermissionGranted) {
             var locationLatLng = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             var latLng = LatLng(locationLatLng!!.latitude, locationLatLng.longitude)
@@ -87,7 +94,7 @@ class TransportFragment : BaseFragment() {
     private fun requestService(latLng: LatLng) {
         RetrofitApiManager.getInstance()
             .requestReverseGeoAddress(
-                concat(latLng.latitude, latLng.longitude),
+                latLngConcat(latLng.latitude, latLng.longitude),
                 "ko",
                 BuildConfig.MAPS_API_KEY,
                 object : RetrofitInterface {
@@ -123,7 +130,7 @@ class TransportFragment : BaseFragment() {
 //    onViewStateRestored??
 
 
-    fun concat(lat: Double, lng: Double): String {
+    fun latLngConcat(lat: Double, lng: Double): String {
         return "$lat, $lng"
     }
 
@@ -133,10 +140,6 @@ class TransportFragment : BaseFragment() {
 
         val gridLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView?.layoutManager = gridLayoutManager
-
-//        recyclerViewAdapter?.setOnItemClickListener(TransportRecyclerViewAdapter.OnItemClickListener{ view: View?, position: Int ->
-//            selectedIconPosition = position
-//        })
 
         recyclerView?.adapter = recyclerViewAdapter
         recyclerViewAdapter!!.addItem(itemList)
