@@ -131,7 +131,7 @@ class TransportFragment : BaseFragment() {
         recyclerView = binding?.directionRecyclerview
         recyclerViewAdapter = TransportRecyclerViewAdapter(requireContext(), itemList)
 
-        val gridLayoutManager = GridLayoutManager(context, 4)
+        val gridLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView?.layoutManager = gridLayoutManager
 
 //        recyclerViewAdapter?.setOnItemClickListener(TransportRecyclerViewAdapter.OnItemClickListener{ view: View?, position: Int ->
