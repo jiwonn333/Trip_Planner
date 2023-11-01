@@ -1,5 +1,6 @@
 package com.example.letstravel.fragment.transport
 
+import TransportRecyclerViewAdapter
 import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
 import android.location.LocationManager
@@ -7,7 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.letstravel.BuildConfig
 import com.example.letstravel.R
 import com.example.letstravel.api.RetrofitApiManager
@@ -15,7 +17,6 @@ import com.example.letstravel.api.RetrofitInterface
 import com.example.letstravel.api.model.ReverseGeoResponse
 import com.example.letstravel.databinding.FragmentTransportBinding
 import com.example.letstravel.fragment.common.BaseFragment
-import com.example.letstravel.fragment.common.SavedStateViewModel
 import com.example.letstravel.util.CLog
 import com.example.letstravel.util.PermissionManager
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -27,14 +28,24 @@ class TransportFragment : BaseFragment() {
     private val permissionManager = PermissionManager()
     var locationManager: LocationManager? = null
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    val stateViewModel: SavedStateViewModel by viewModels() // viewmodel 선언
+//    val stateViewModel: SavedStateViewModel by viewModels() // viewmodel 선언
+//    private lateinit var viewModel: TransportViewModel
 
-    companion object {
-        fun newInstance() = TransportFragment()
-        private const val KEY_LOCATION = "location"
-    }
+    private var selectedIconPosition: Int = 0
+    private var recyclerView: RecyclerView? = null
+    private var recyclerViewAdapter: TransportRecyclerViewAdapter? = null
 
-    private lateinit var viewModel: TransportViewModel
+    private val itemList: ArrayList<RecyclerViewDirectionItem> =
+        object : ArrayList<RecyclerViewDirectionItem>() {
+            init {
+                add(RecyclerViewDirectionItem(R.drawable.ic_direction_bus))
+                add(RecyclerViewDirectionItem(R.drawable.ic_direction_car))
+                add(RecyclerViewDirectionItem(R.drawable.ic_direction_walk))
+                add(RecyclerViewDirectionItem(R.drawable.ic_direction_bike))
+
+            }
+        }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,8 +66,10 @@ class TransportFragment : BaseFragment() {
             PermissionManager.AppPermission.FINE_LOCATION
         )
 
-        // 휴대폰의 현재 주소 가져오기
+        // get current address test
         test(locationPermissionGranted)
+        initRecyclerView()
+
     }
 
     @SuppressLint("MissingPermission")
@@ -113,4 +126,21 @@ class TransportFragment : BaseFragment() {
     fun concat(lat: Double, lng: Double): String {
         return "$lat, $lng"
     }
+
+    private fun initRecyclerView() {
+        recyclerView = binding?.directionRecyclerview
+        recyclerViewAdapter = TransportRecyclerViewAdapter(requireContext(), itemList)
+
+        val gridLayoutManager = GridLayoutManager(context, 4)
+        recyclerView?.layoutManager = gridLayoutManager
+
+//        recyclerViewAdapter?.setOnItemClickListener(TransportRecyclerViewAdapter.OnItemClickListener{ view: View?, position: Int ->
+//            selectedIconPosition = position
+//        })
+
+        recyclerView?.adapter = recyclerViewAdapter
+        recyclerViewAdapter!!.addItem(itemList)
+        recyclerViewAdapter?.notifyDataSetChanged()
+    }
 }
+
