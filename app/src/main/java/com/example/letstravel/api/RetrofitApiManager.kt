@@ -1,6 +1,7 @@
 package com.example.letstravel.api
 
 import com.example.letstravel.api.geo_model.ReverseGeoResponse
+import com.example.letstravel.api.search_model.PlacesFindPlaceFromTextResponse
 import com.example.letstravel.util.CLog
 import com.example.letstravel.util.Constant
 import com.google.gson.Gson
@@ -118,6 +119,30 @@ class RetrofitApiManager {
                 }
 
                 override fun onFailure(call: Call<ReverseGeoResponse?>, t: Throwable) {
+                    retrofitInterface.onFailure(t)
+                }
+
+            })
+    }
+
+    // 주소 텍스트로 검색
+    fun requestFindPlaceFromText(
+        input: String,
+        inputType: String,
+        language: String,
+        key: String,
+        retrofitInterface: RetrofitInterface
+    ) {
+        Build().create(ApiService::class.java).findPlaceFromText(input, inputType, language, key)
+            .enqueue(object : Callback<PlacesFindPlaceFromTextResponse> {
+                override fun onResponse(
+                    call: Call<PlacesFindPlaceFromTextResponse>,
+                    response: Response<PlacesFindPlaceFromTextResponse>
+                ) {
+                    retrofitInterface.onResponse(response)
+                }
+
+                override fun onFailure(call: Call<PlacesFindPlaceFromTextResponse>, t: Throwable) {
                     retrofitInterface.onFailure(t)
                 }
 

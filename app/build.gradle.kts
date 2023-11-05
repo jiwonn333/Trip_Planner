@@ -115,6 +115,9 @@ dependencies {
     // okhttp3
     implementation ("com.squareup.okhttp3:logging-interceptor:4.2.1")
 
+    // jsonparser
+    implementation ("com.sealwu.jsontokotlin:library:3.7.4")
+
 
 
 }
