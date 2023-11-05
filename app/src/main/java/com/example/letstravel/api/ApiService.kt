@@ -1,12 +1,7 @@
 package com.example.letstravel.api
 
-import android.content.Context
-import com.example.letstravel.api.model.ReverseGeoResponse
-import com.example.letstravel.util.Constant
-import com.google.android.gms.maps.model.LatLng
+import com.example.letstravel.api.geo_model.ReverseGeoResponse
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 

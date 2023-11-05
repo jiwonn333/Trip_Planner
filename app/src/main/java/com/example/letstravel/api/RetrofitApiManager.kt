@@ -1,6 +1,6 @@
 package com.example.letstravel.api
 
-import com.example.letstravel.api.model.ReverseGeoResponse
+import com.example.letstravel.api.geo_model.ReverseGeoResponse
 import com.example.letstravel.util.CLog
 import com.example.letstravel.util.Constant
 import com.google.gson.Gson
