@@ -9,13 +9,22 @@
         android:id="@+id/navigation_nearby"
         android:name="com.example.letstravel.fragment.nearby.NearbyFragment"
         android:label="@string/title_information"
-        tools:layout="@layout/fragment_nearby"/>
+        tools:layout="@layout/fragment_nearby" />
 
     <fragment
         android:id="@+id/navigation_test"
         android:name="com.example.letstravel.fragment.test.TestFragment1"
         android:label="@string/title_information"
-        tools:layout="@layout/fragment_test_fragment1"/>
+        tools:layout="@layout/fragment_test_fragment1">
+        <action
+            android:id="@+id/action_navigation_test_to_search_test"
+            app:destination="@id/navigation_search_test" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_search_test"
+        android:name="com.example.letstravel.fragment.test.SearchTestFragment"
+        tools:layout="@layout/nearby_test_2" />
 
     <fragment
         android:id="@+id/navigation_save"
