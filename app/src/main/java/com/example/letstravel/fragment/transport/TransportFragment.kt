@@ -14,7 +14,7 @@ import com.example.letstravel.BuildConfig
 import com.example.letstravel.R
 import com.example.letstravel.api.RetrofitApiManager
 import com.example.letstravel.api.RetrofitInterface
-import com.example.letstravel.api.model.ReverseGeoResponse
+import com.example.letstravel.api.geo_model.ReverseGeoResponse
 import com.example.letstravel.databinding.FragmentTransportBinding
 import com.example.letstravel.fragment.common.BaseFragment
 import com.example.letstravel.util.CLog
@@ -66,15 +66,18 @@ class TransportFragment : BaseFragment() {
             PermissionManager.AppPermission.FINE_LOCATION
         )
 
+        getCurrentAddress(locationPermissionGranted)
+        initRecyclerView()
+
         binding?.ibSwap?.setOnClickListener {
             var swap = binding?.tvStart?.text.toString()
             binding?.tvStart?.text = binding?.tvArrive?.text.toString()
             binding?.tvArrive?.text = swap
         }
 
-
-        getCurrentAddress(locationPermissionGranted)
-        initRecyclerView()
+        binding?.ibClose?.setOnClickListener {
+            removeFragment(this)
+        }
 
 
     }
@@ -105,17 +108,11 @@ class TransportFragment : BaseFragment() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 CLog.d("response is Successful!!")
-                                var reverseGeoResponse = response.body() as ReverseGeoResponse
-                                if (reverseGeoResponse != null) {
-                                    var result = reverseGeoResponse.results
-                                    if (result != null) {
-                                        var name = result[2].formatted_address
-                                        if (name != null) {
-                                            CLog.e("name : $name")
-                                            binding?.tvStart?.text = "내위치: $name"
-                                        }
-                                    }
-                                }
+                                val reverseGeoResponse = response.body() as ReverseGeoResponse
+                                val result = reverseGeoResponse.results
+                                val name = result[2].formatted_address
+                                CLog.e("name : $name")
+                                binding?.tvStart?.text = "내위치: $name"
                             }
                         }
                     }
@@ -134,6 +131,7 @@ class TransportFragment : BaseFragment() {
         return "$lat, $lng"
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initRecyclerView() {
         recyclerView = binding?.directionRecyclerview
         recyclerViewAdapter = TransportRecyclerViewAdapter(requireContext(), itemList)
