@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_nearby"/>
 
     <fragment
+        android:id="@+id/navigation_test"
+        android:name="com.example.letstravel.fragment.test.TestFragment1"
+        android:label="@string/title_information"
+        tools:layout="@layout/fragment_test_fragment1"/>
+
+    <fragment
         android:id="@+id/navigation_save"
         android:name="com.example.letstravel.fragment.save.SaveFragment"
         android:label="@string/title_save"

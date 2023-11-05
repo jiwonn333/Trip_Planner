@@ -21,4 +21,9 @@
         android:icon="@drawable/ic_mypage"
         android:title="@string/title_mypage" />
 
+    <item
+        android:id="@+id/navigation_test"
+        android:icon="@drawable/ic_mypage"
+        android:title="테스트" />
+
 </menu>
