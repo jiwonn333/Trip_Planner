@@ -41,6 +41,14 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/cl_search"
+        tools:listitem="@layout/search_list" />
+
 
     <!-- 집, 회사, >(더보기 아이콘) -->
     <androidx.recyclerview.widget.RecyclerView
@@ -49,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:scrollbars="horizontal"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/cl_save_star"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_search"
