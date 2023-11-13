@@ -1,8 +1,7 @@
 package com.example.letstravel.api
 
 import com.example.letstravel.api.geo_model.ReverseGeoResponse
-import com.example.letstravel.api.search_model.PlacesFindPlaceFromTextResponse
-import com.google.android.libraries.places.api.model.LocationBias
+import com.example.letstravel.api.text_search_model.PlacesTextSearchResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -14,13 +13,11 @@ interface ApiService {
         @Query("key") key: String
     ): Call<ReverseGeoResponse?>
 
-    @GET("/maps/api/place/findplacefromtext/json")
-    fun findPlaceFromText(
-        @Query("input") input: String,
-        @Query("inputtype") inputType: String,
+    @GET("/maps/api/place/textsearch/json")
+    fun placesTextSearch(
+        @Query("query") query: String,
         @Query("language") language: String,
-//        @Query("locationbias") locationBias: LocationBias,
         @Query("key") key: String
-    ): Call<PlacesFindPlaceFromTextResponse>
+    ): Call<PlacesTextSearchResponse>
 
 }
