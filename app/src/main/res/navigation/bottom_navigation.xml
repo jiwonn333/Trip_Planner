@@ -24,7 +24,7 @@
     <fragment
         android:id="@+id/navigation_search_test"
         android:name="com.example.letstravel.fragment.test.SearchTestFragment"
-        tools:layout="@layout/nearby_test_2" />
+        tools:layout="@layout/fragment_search_test" />
 
     <fragment
         android:id="@+id/navigation_save"
