@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/navigation_search_test"
-        android:name="com.example.letstravel.fragment.test.SearchTestFragment"
+        android:name="com.example.letstravel.fragment.test.search.SearchTestFragment"
         tools:layout="@layout/fragment_search_test" />
 
     <fragment

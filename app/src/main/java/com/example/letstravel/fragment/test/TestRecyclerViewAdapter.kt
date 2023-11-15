@@ -37,16 +37,6 @@ class TestRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
-//    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        var imageView: ImageView
-////        var textView: TextView
-//
-//        init {
-//            imageView = itemView.findViewById(R.id.iv_favorites_icon)
-////            textView = itemView.findViewById(R.id.tv_favorites)
-//        }
-//    }
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var ivFavorites: ImageView
         var tvFavorites: TextView
