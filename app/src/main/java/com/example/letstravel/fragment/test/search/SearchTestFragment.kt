@@ -99,6 +99,7 @@ class SearchTestFragment : BaseFragment() {
             "ko",
             BuildConfig.MAPS_API_KEY,
             object : RetrofitInterface {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(response: Response<*>?) {
                     CLog.d("response : $response")
 
@@ -114,13 +115,16 @@ class SearchTestFragment : BaseFragment() {
 
                                     var result = placesTextSearchResponse.results
                                     var size = placesTextSearchResponse.results.size - 1
-
+                                    if (searchList.size > 0) {
+                                        searchList.clear()
+                                    }
                                     for (i: Int in 0..size) {
                                         var ele = result[i].name
                                         searchList.add(SearchItem(ele))
                                     }
                                     CLog.e("searchList : $searchList")
                                     searchRecyclerViewAdapter?.addItem(searchList)
+                                    searchRecyclerViewAdapter?.notifyDataSetChanged()
                                 }
                                 "ZERO_RESULTS" -> {
                                     CLog.e("대기")
