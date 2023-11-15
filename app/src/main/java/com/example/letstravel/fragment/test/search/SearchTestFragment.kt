@@ -1,4 +1,4 @@
-package com.example.letstravel.fragment.test
+package com.example.letstravel.fragment.test.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -17,6 +17,9 @@ import com.example.letstravel.api.RetrofitInterface
 import com.example.letstravel.api.text_search_model.PlacesTextSearchResponse
 import com.example.letstravel.databinding.FragmentSearchTestBinding
 import com.example.letstravel.fragment.common.BaseFragment
+import com.example.letstravel.fragment.test.TestFragment1ViewModel
+import com.example.letstravel.fragment.test.TestItem
+import com.example.letstravel.fragment.test.TestRecyclerViewAdapter
 import com.example.letstravel.util.CLog
 import retrofit2.Response
 
@@ -28,13 +31,16 @@ class SearchTestFragment : BaseFragment() {
 
     // recyclerview
     private var recyclerView: RecyclerView? = null
-    private var recyclerViewAdapter: TestRecyclerViewAdapter? = null
+    private var testRecyclerViewAdapter: TestRecyclerViewAdapter? = null
+    private var searchRecyclerViewAdapter: SearchRecyclerViewAdapter? = null
     private val itemList: ArrayList<TestItem> =
         object : ArrayList<TestItem>() {
             init {
                 add(TestItem(R.drawable.ic_test_home))
             }
         }
+
+    private var searchList = ArrayList<SearchItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +56,8 @@ class SearchTestFragment : BaseFragment() {
         viewModel = ViewModelProvider(this).get(TestFragment1ViewModel::class.java)
 
 
-        initRecyclerView()
+        initTestRecyclerView()
+        initSearchRecyclerView()
 
         // back 키 누르면 이전화면
         binding?.ivBack?.setOnClickListener {
@@ -83,7 +90,6 @@ class SearchTestFragment : BaseFragment() {
             override fun afterTextChanged(s: Editable?) {
 
             }
-
         })
     }
 
@@ -105,10 +111,16 @@ class SearchTestFragment : BaseFragment() {
                             var status = placesTextSearchResponse.status
                             when (status) {
                                 "OK" -> {
-                                    var size = placesTextSearchResponse.results.size-1
-                                    for (i:Int in 0..size) {
-                                        CLog.e("result[" + i + "]  name: " + placesTextSearchResponse.results[i].name)
+
+                                    var result = placesTextSearchResponse.results
+                                    var size = placesTextSearchResponse.results.size - 1
+
+                                    for (i: Int in 0..size) {
+                                        var ele = result[i].name
+                                        searchList.add(SearchItem(ele))
                                     }
+                                    CLog.e("searchList : $searchList")
+                                    searchRecyclerViewAdapter?.addItem(searchList)
                                 }
                                 "ZERO_RESULTS" -> {
                                     CLog.e("대기")
@@ -126,13 +138,21 @@ class SearchTestFragment : BaseFragment() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initRecyclerView() {
+    private fun initTestRecyclerView() {
         recyclerView = binding?.favoriteRecyclerview
-        recyclerViewAdapter = TestRecyclerViewAdapter(requireContext(), itemList)
+        testRecyclerViewAdapter = TestRecyclerViewAdapter(requireContext(), itemList)
         val linearLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView!!.layoutManager = linearLayoutManager
-        recyclerView!!.adapter = recyclerViewAdapter
-        recyclerViewAdapter!!.addItem(itemList)
+        recyclerView!!.adapter = testRecyclerViewAdapter
+        testRecyclerViewAdapter!!.addItem(itemList)
+    }
+
+    private fun initSearchRecyclerView() {
+        recyclerView = binding?.searchRecyclerview
+        searchRecyclerViewAdapter = SearchRecyclerViewAdapter(requireContext())
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView!!.layoutManager = linearLayoutManager
+        recyclerView!!.adapter = searchRecyclerViewAdapter
     }
 }
