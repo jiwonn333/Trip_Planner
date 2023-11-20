@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
@@ -60,8 +61,11 @@ class GoogleMapManager {
 
     private lateinit var googleMap: GoogleMap
 
+    @SuppressLint("MissingPermission")
     fun setInitGoogleMap(googleMap: GoogleMap, context: Context) {
         this.googleMap = googleMap
+        this.googleMap.isMyLocationEnabled = false
+
         Places.initialize(context, BuildConfig.MAPS_API_KEY)
         placesClient = Places.createClient(context)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
@@ -105,11 +109,10 @@ class GoogleMapManager {
                         }
                     } else {
                         Log.e("test", "Exception: %s", task.exception)
-                        googleMap?.moveCamera(
+                        googleMap.moveCamera(
                             CameraUpdateFactory
                                 .newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat())
                         )
-                        googleMap?.uiSettings?.isMyLocationButtonEnabled = false
                     }
                 }
             }
@@ -118,7 +121,6 @@ class GoogleMapManager {
             Log.e("Exception: %s", e.message, e)
         }
     }
-
 
     fun moveCamera(latitude: Double, longitude: Double) {
         val latlng = LatLng(latitude, longitude)

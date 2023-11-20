@@ -59,7 +59,7 @@
         android:id="@+id/navigation_add_place"
         android:name="com.example.letstravel.fragment.save.add_group.AddFragment"
         android:label="장소 추가하기"
-        tools:layout="@layout/fragment_save_add"></fragment>
+        tools:layout="@layout/fragment_save_add"/>
 
     <fragment
         android:id="@+id/navigation_transport"

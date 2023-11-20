@@ -3,11 +3,13 @@ package com.example.letstravel.fragment.transport
 import TransportRecyclerViewAdapter
 import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.letstravel.BuildConfig
@@ -20,6 +22,7 @@ import com.example.letstravel.fragment.common.BaseFragment
 import com.example.letstravel.util.CLog
 import com.example.letstravel.util.PermissionManager
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import retrofit2.Response
 
@@ -27,8 +30,10 @@ class TransportFragment : BaseFragment() {
     private var binding: FragmentTransportBinding? = null
     private val permissionManager = PermissionManager()
     var locationManager: LocationManager? = null
+    private var lastKnownLocation: Location? = null
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-//    val stateViewModel: SavedStateViewModel by viewModels() // viewmodel 선언
+
+    //    val stateViewModel: SavedStateViewModel by viewModels() // viewmodel 선언
 //    private lateinit var viewModel: TransportViewModel
 
     private var selectedIconPosition: Int = 0
@@ -48,8 +53,7 @@ class TransportFragment : BaseFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTransportBinding.inflate(inflater, container, false)
 
@@ -60,10 +64,13 @@ class TransportFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
+
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
+
         // permission 권한 설정 확인
         val locationPermissionGranted = permissionManager.isPermissionGranted(
-            requireContext(),
-            PermissionManager.AppPermission.FINE_LOCATION
+            requireContext(), PermissionManager.AppPermission.FINE_LOCATION
         )
 
         getCurrentAddress(locationPermissionGranted)
@@ -84,20 +91,32 @@ class TransportFragment : BaseFragment() {
 
     @SuppressLint("MissingPermission")
     private fun getCurrentAddress(locationPermissionGranted: Boolean) {
+        var latLng: LatLng
         if (locationPermissionGranted) {
-            var locationLatLng = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            var latLng = LatLng(locationLatLng!!.latitude, locationLatLng.longitude)
-
-            // 역 지오코딩을 사용해 위도/경도 -> 주소로 표현하기 / 통신
-            requestService(latLng)
+            val locationResult = fusedLocationProviderClient.lastLocation
+            val addOnCompleteListener = locationResult.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    lastKnownLocation = task.result
+                    if (lastKnownLocation != null) {
+                        requestService(
+                            LatLng(
+                                lastKnownLocation!!.latitude,
+                                lastKnownLocation!!.longitude
+                            )
+                        )
+                    }
+                } else {
+                    CLog.e("Exception: %s", task.exception)
+                    Toast.makeText(context, "null", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
     }
 
     private fun requestService(latLng: LatLng) {
         RetrofitApiManager.getInstance()
-            .requestReverseGeoAddress(
-                latLngConcat(latLng.latitude, latLng.longitude),
+            .requestReverseGeoAddress(latLngConcat(latLng.latitude, latLng.longitude),
                 "ko",
                 BuildConfig.MAPS_API_KEY,
                 object : RetrofitInterface {
@@ -110,9 +129,9 @@ class TransportFragment : BaseFragment() {
                                 CLog.d("response is Successful!!")
                                 val reverseGeoResponse = response.body() as ReverseGeoResponse
                                 val result = reverseGeoResponse.results
-                                val name = result[2].formatted_address
-                                CLog.e("name : $name")
-                                binding?.tvStart?.text = "내위치: $name"
+                                val formattedAddress = result[0].formatted_address
+                                CLog.e("formatted_address : $formattedAddress")
+                                binding?.tvStart?.text = "내위치: $formattedAddress"
                             }
                         }
                     }
