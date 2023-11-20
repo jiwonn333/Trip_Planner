@@ -22,6 +22,7 @@
 
     <!--    Information SearchView    -->
     <string name="search_text">식당, 숙소, 버스 등 검색</string>
+    <string name="search_list">검색된 장소 리스트</string>
     <string name="search_cancel">취소</string>
     <string name="option_get_place">Get place</string>
 
