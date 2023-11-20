@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.letstravel.BuildConfig
@@ -91,10 +90,9 @@ class TransportFragment : BaseFragment() {
 
     @SuppressLint("MissingPermission")
     private fun getCurrentAddress(locationPermissionGranted: Boolean) {
-        var latLng: LatLng
         if (locationPermissionGranted) {
             val locationResult = fusedLocationProviderClient.lastLocation
-            val addOnCompleteListener = locationResult.addOnCompleteListener { task ->
+            locationResult.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     lastKnownLocation = task.result
                     if (lastKnownLocation != null) {
@@ -107,7 +105,6 @@ class TransportFragment : BaseFragment() {
                     }
                 } else {
                     CLog.e("Exception: %s", task.exception)
-                    Toast.makeText(context, "null", Toast.LENGTH_SHORT).show()
                 }
             }
         }
