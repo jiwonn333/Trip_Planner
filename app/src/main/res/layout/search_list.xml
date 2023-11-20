@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="@string/search_text"
+        android:hint="@string/search_list"
         android:padding="10sp"
         android:textColorHint="@color/tv_hint"
         android:textSize="18sp"
