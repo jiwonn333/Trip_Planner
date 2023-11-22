@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,11 +77,20 @@ class TransportDetailFragment : BaseFragment() {
     }
 
     private fun initViewModel() {
-        transportViewModel = ViewModelProvider(requireActivity()).get(TransportViewModel::class.java)
+        transportViewModel =
+            ViewModelProvider(requireActivity()).get(TransportViewModel::class.java)
         CLog.e("1) getAddress : " + transportViewModel.getAddress().value)
 
-        transportViewModel.getAddress().observe(viewLifecycleOwner, Observer {address ->
-            binding?.etSearch?.text = Editable.Factory.getInstance().newEditable(address)
+        transportViewModel.getAddress().observe(viewLifecycleOwner, Observer { address ->
+            if (address == "") {
+                if (transportViewModel.getCheckNum().value == 1) {
+                    binding?.etSearch?.hint = "출발지 입력"
+                } else {
+                    binding?.etSearch?.hint = "도착지 입력"
+                }
+            } else {
+                binding?.etSearch?.text = Editable.Factory.getInstance().newEditable(address)
+            }
         })
     }
 

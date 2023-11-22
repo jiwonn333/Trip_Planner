@@ -83,12 +83,12 @@ class TransportFragment : BaseFragment(), View.OnClickListener {
             binding?.ibSwap?.id -> swapAddress()
             binding?.tvStart?.id -> {
                 transportViewModel.checkNum(1)
-                checkEmpty(binding?.tvStart?.text as String, binding?.tvStart!!)
+                transportViewModel.updateAddress(binding?.tvStart?.text.toString())
                 replaceFragment()
             }
             binding?.tvArrive?.id -> {
                 transportViewModel.checkNum(2)
-                checkEmpty(binding?.tvArrive?.text as String, binding?.tvArrive!!)
+                transportViewModel.updateAddress(binding?.tvArrive?.text.toString())
                 replaceFragment()
             }
         }
