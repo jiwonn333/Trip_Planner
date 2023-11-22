@@ -59,13 +59,22 @@
         android:id="@+id/navigation_add_place"
         android:name="com.example.letstravel.fragment.save.add_group.AddFragment"
         android:label="장소 추가하기"
-        tools:layout="@layout/fragment_save_add"/>
+        tools:layout="@layout/fragment_save_add" />
 
     <fragment
         android:id="@+id/navigation_transport"
         android:name="com.example.letstravel.fragment.transport.TransportFragment"
         android:label="@string/title_transport"
-        tools:layout="@layout/fragment_transport" />
+        tools:layout="@layout/fragment_transport">
+        <action
+            android:id="@+id/action_navigation_transport_to_navigation_transport_detail"
+            app:destination="@id/navigation_transport_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_transport_detail"
+        android:name="com.example.letstravel.fragment.transport.detail.TransportDetailFragment"
+        tools:layout="@layout/fragment_transport_detail" />
 
     <fragment
         android:id="@+id/navigation_mypage"

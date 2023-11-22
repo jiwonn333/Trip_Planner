@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
@@ -47,7 +46,9 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 
-        stateViewModel = ViewModelProvider(this, SavedStateViewModelFactory(application, this)).get(SavedStateViewModel::class.java)
+        stateViewModel = ViewModelProvider(this, SavedStateViewModelFactory(application, this)).get(
+            SavedStateViewModel::class.java
+        )
 
 
         initialized()
@@ -122,8 +123,7 @@ class MainActivityKt : AppCompatActivity(), OnMapReadyCallback {
 
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
             when (navDestination.id) {
-                R.id.navigation_save, R.id.navigation_save_add, R.id.navigation_save_detail, R.id.navigation_add_place, R.id.navigation_mypage
-                , R.id.navigation_search_test-> {
+                R.id.navigation_save, R.id.navigation_save_add, R.id.navigation_save_detail, R.id.navigation_add_place, R.id.navigation_mypage, R.id.navigation_transport_detail, R.id.navigation_search_test -> {
                     bottomNav.visibility = View.GONE
                     supportActionBar?.hide()
                 }

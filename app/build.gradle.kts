@@ -118,6 +118,9 @@ dependencies {
     // jsonparser
     implementation ("com.sealwu.jsontokotlin:library:3.7.4")
 
+    // viewmodel
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
 
 
 }
